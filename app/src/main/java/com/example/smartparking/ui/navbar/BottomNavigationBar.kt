@@ -51,7 +51,7 @@ fun BottomNavigationBar(navController: NavController) {
                     label = {
                         Text(
                             text = item.title,
-                            fontSize = 14.sp,
+                            fontSize = 12.sp,
                             color = if (currentRoute == item.route) Color.Black else Color.Gray
                         )
                     },
