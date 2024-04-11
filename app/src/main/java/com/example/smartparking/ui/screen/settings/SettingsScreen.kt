@@ -48,7 +48,7 @@ fun SettingsScreen(navController: NavHostController, context: Context) {
         Text(
             modifier = Modifier.
                 padding(top = 35.dp),
-            text = "Настройки",
+            text = stringResource(id = R.string.settingsScreen),
             color = Color.Black,
             fontSize = 18.sp,
             textAlign = TextAlign.Center

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SmartParking</string>
+    <string name="settingsScreen">Настройки</string>
+    <string name="favouritesScreen">Избранное</string>
+    <string name="mapScreen">Карта</string>
+    <string name="profileScreen">Профиль</string>
 </resources>
