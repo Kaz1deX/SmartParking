@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="settings">
+        <item>Поддержка</item>
+        <item>Уведомление</item>
+        <item>Информация</item>
+        <item>О приложении</item>
+    </string-array>
+</resources>
