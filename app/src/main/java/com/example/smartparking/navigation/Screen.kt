@@ -7,4 +7,6 @@ sealed class Screen(val route: String, var icon: Int = R.drawable.ic_launcher_fo
     data object MapScreen: Screen(route = "map_screen", icon = R.drawable.map_icon, title = "Карта")
     data object FavouritesScreen: Screen(route = "favourites_screen", icon = R.drawable.favourites_icon, title = "Избранное")
     data object SettingsScreen: Screen(route = "settings_screen", icon = R.drawable.settings_icon, title = "Настройки")
+    data object LoginScreen: Screen(route = "login_screen", title = "LoginScreen")
+    data object RegistrationScreen: Screen(route = "registration_screen", title = "RegistrationScreen")
 }
