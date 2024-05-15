@@ -55,7 +55,7 @@ fun FavouritesScreen(navController: NavHostController, context: Context) {
             .padding(top = 50.dp)
         )
 
-        val settingsName = listOf("Парковка 1", "Парковка 2", "Парковка 3", "Парковка 4",
+        val favouriteName = listOf("Парковка 1", "Парковка 2", "Парковка 3", "Парковка 4",
             "Парковка 5", "Парковка 6", "Парковка 7", "Парковка 8", "Парковка 9", "Парковка 10")
 
         LazyColumn(
@@ -64,10 +64,10 @@ fun FavouritesScreen(navController: NavHostController, context: Context) {
                 .fillMaxSize()
         ) {
             itemsIndexed(
-                settingsName
+                favouriteName
             ) {index, item ->
                 FavouriteItem(item)
-                if(index != (settingsName.size - 1)) {
+                if(index != (favouriteName.size - 1)) {
                     Divider(modifier = Modifier
                         .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 15.dp),
                         thickness = 1.dp,
@@ -77,40 +77,6 @@ fun FavouritesScreen(navController: NavHostController, context: Context) {
             }
         }
     }
-
-
-
-
-
-//    Column(
-//        modifier = Modifier.fillMaxSize(),
-//        horizontalAlignment = Alignment.CenterHorizontally
-//    ) {
-//        Text(
-//            modifier = Modifier.
-//            padding(top = 35.dp),
-//            text = stringResource(id = R.string.favouritesScreen),
-//            color = Color.Black,
-//            fontSize = 18.sp,
-//            textAlign = TextAlign.Center
-//        )
-//        Spacer(modifier = Modifier
-//            .padding(top = 50.dp)
-//        )
-//
-//        val settingsName = listOf("Парковка 1", "Парковка 2", "Парковка 3")
-//
-//        for(i in settingsName.indices) {
-//            FavouriteItem(settingsName[i])
-//            if(i != (settingsName.size - 1)) {
-//                Divider(modifier = Modifier
-//                    .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 15.dp),
-//                    thickness = 1.dp,
-//                    color = DividerGrey
-//                )
-//            }
-//        }
-//    }
 }
 
 @Composable
