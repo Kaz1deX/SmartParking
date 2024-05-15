@@ -2,7 +2,7 @@
 <resources>
     <string-array name="settings">
         <item>Поддержка</item>
-        <item>Уведомление</item>
+        <item>Уведомления</item>
         <item>Информация</item>
         <item>О приложении</item>
     </string-array>
