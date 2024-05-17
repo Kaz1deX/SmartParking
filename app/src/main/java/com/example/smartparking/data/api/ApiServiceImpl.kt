@@ -27,7 +27,7 @@ class ApiServiceImpl(
             return if (response.status.isSuccess()) {
                 response.body()
             } else {
-                LoginResponse("")
+                LoginResponse("", "", "")
             }
 
         } catch (ex: RedirectResponseException) {
@@ -39,7 +39,7 @@ class ApiServiceImpl(
         }
     }
 
-    override suspend fun login(userLogin: UserLogin): LoginResponse {
+    override suspend fun auth(userLogin: UserLogin): LoginResponse {
         try {
             val response: HttpResponse = client.post {
                 url(ApiRoutes.BASE_URL + ApiRoutes.AUTHENTICATE)
@@ -49,7 +49,7 @@ class ApiServiceImpl(
             return if (response.status.isSuccess()) {
                 response.body()
             } else {
-                LoginResponse("")
+                LoginResponse("", "", "")
             }
 
         } catch (ex: RedirectResponseException) {

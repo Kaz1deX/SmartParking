@@ -22,7 +22,7 @@ interface ApiService {
 
     suspend fun register(userRegister: UserRegister): LoginResponse
 
-    suspend fun login(userLogin: UserLogin): LoginResponse
+    suspend fun auth(userLogin: UserLogin): LoginResponse
 
     companion object {
 
