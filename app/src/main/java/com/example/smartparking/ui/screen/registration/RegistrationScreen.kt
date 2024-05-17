@@ -1,5 +1,6 @@
 package com.example.smartparking.ui.screen.registration
 
+import android.app.Activity
 import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -43,8 +44,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.smartparking.App
 import com.example.smartparking.R
 import com.example.smartparking.ui.components.TextField
 import com.example.smartparking.ui.components.rememberImeState
@@ -54,13 +57,24 @@ import com.example.smartparking.ui.theme.Blue
 @Composable
 fun RegistrationScreen(navController: NavHostController, context: Context) {
     val textUsername = remember { mutableStateOf("") }
-    val textRegistration = remember { mutableStateOf("") }
+    val textLogin = remember { mutableStateOf("") }
     val textEmail = remember { mutableStateOf("") }
     val textPassword1 = remember { mutableStateOf("") }
     val textPassword2 = remember { mutableStateOf("") }
 
     val imeState = rememberImeState()
     val scrollState = rememberScrollState()
+
+    val activity = LocalContext.current as Activity
+    val application = activity.application as App
+    val repository = application.repository
+
+    val viewModel: RegistrationViewModel = viewModel(
+        factory = RegistrationViewModel.RegistrationViewModelFactory(
+            application,
+            repository
+        )
+    )
 
     LaunchedEffect(key1 = imeState.value) {
         if (imeState.value) scrollState.animateScrollTo(scrollState.maxValue)
@@ -110,7 +124,7 @@ fun RegistrationScreen(navController: NavHostController, context: Context) {
 
         TextField(
             hint = "Логин",
-            text = textRegistration,
+            text = textLogin,
             keyboardOptions = KeyboardOptions(),
             keyboardActions = KeyboardActions(),
         )
@@ -152,7 +166,12 @@ fun RegistrationScreen(navController: NavHostController, context: Context) {
         ) {
             Button(
                 onClick = {
-
+                    viewModel.register(
+                        textLogin.value,
+                        textPassword1.value,
+                        textUsername.value,
+                        textEmail.value
+                    )
                 },
                 modifier = Modifier
                     .fillMaxWidth()
