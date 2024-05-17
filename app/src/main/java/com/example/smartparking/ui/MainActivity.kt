@@ -4,21 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.example.smartparking.data.model.Booking
-import com.example.smartparking.data.model.Car
-import com.example.smartparking.data.model.Favourite
-import com.example.smartparking.data.model.Parking
 import com.example.smartparking.navigation.Navigation
+import com.example.smartparking.navigation.NavigationRouter
+import com.example.smartparking.navigation.Screen
 import com.example.smartparking.ui.navbar.BottomNavigationBar
 import com.example.smartparking.ui.theme.SmartParkingTheme
 
@@ -30,7 +22,13 @@ class MainActivity : ComponentActivity() {
 
             SmartParkingTheme {
                 Scaffold(
-                    bottomBar = { BottomNavigationBar(navController = navController) }
+                    bottomBar = {
+                        when (NavigationRouter.currentScreen.value) {
+                            Screen.LoginScreen,
+                            Screen.RegistrationScreen -> null
+                            else -> BottomNavigationBar(navController = navController)
+                        }
+                    }
                 ) { contentPadding ->
                     run {
                         Box(modifier = Modifier.padding(contentPadding)) {

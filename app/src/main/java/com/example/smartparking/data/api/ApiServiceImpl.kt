@@ -24,11 +24,7 @@ class ApiServiceImpl(
                 setBody(userRegister)
             }
 
-            return if (response.status.isSuccess()) {
-                response.body()
-            } else {
-                LoginResponse("")
-            }
+            return response.body()
 
         } catch (ex: RedirectResponseException) {
             throw Exception("Redirect error: ${ex.response.status.description}")
@@ -46,11 +42,7 @@ class ApiServiceImpl(
                 setBody(userLogin)
             }
 
-            return if (response.status.isSuccess()) {
-                response.body()
-            } else {
-                LoginResponse("")
-            }
+            return response.body()
 
         } catch (ex: RedirectResponseException) {
             throw Exception("Redirect error: ${ex.response.status.description}")

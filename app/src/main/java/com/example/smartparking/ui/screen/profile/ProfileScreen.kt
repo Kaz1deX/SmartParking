@@ -1,5 +1,6 @@
 package com.example.smartparking.ui.screen.profile
 
+import android.app.Activity
 import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
@@ -31,14 +33,30 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.smartparking.App
 import com.example.smartparking.R
+import com.example.smartparking.navigation.Screen
 import com.example.smartparking.ui.screen.favourites.FavouriteItem
+import com.example.smartparking.ui.screen.login.LoginViewModel
 import com.example.smartparking.ui.screen.settings.SettingsItem
 import com.example.smartparking.ui.theme.DividerGrey
 
 @Composable
 fun ProfileScreen(navController: NavHostController, context: Context) {
+
+    val activity = LocalContext.current as Activity
+    val application = activity.application as App
+    val repository = application.repository
+
+    val viewModel: ProfileViewModel = viewModel(
+        factory = ProfileViewModel.ProfileViewModelFactory(
+            application,
+            repository
+        )
+    )
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -57,7 +75,8 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
             )
             IconButton(
                 onClick = {
-
+                    viewModel.clearSharedPref()
+                    navController.navigate(Screen.LoginScreen.route)
                 },
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
@@ -101,8 +120,9 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
 //                    .size(42.dp)
 //            )
 //        }
-        Spacer(modifier = Modifier
-            .padding(top = 50.dp)
+        Spacer(
+            modifier = Modifier
+                .padding(top = 50.dp)
         )
         Icon(
             painter = painterResource(id = R.drawable.ic_launcher_background),
@@ -112,15 +132,15 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
                 .size(90.dp)
         )
         Text(
-            modifier = Modifier.
-            padding(top = 20.dp),
+            modifier = Modifier.padding(top = 20.dp),
             text = "Максим Петрунин",
             color = Color.Black,
             fontSize = 18.sp,
             textAlign = TextAlign.Center
         )
-        Spacer(modifier = Modifier
-            .padding(top = 40.dp)
+        Spacer(
+            modifier = Modifier
+                .padding(top = 40.dp)
         )
 
         val profileName = stringArrayResource(id = R.array.profile)
@@ -132,16 +152,16 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
         ) {
             itemsIndexed(
                 profileName
-            ) {index, item ->
-                if(index != (profileName.size - 1)) {
+            ) { index, item ->
+                if (index != (profileName.size - 1)) {
                     SettingsItem(item)
-                    Divider(modifier = Modifier
-                        .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 15.dp),
+                    Divider(
+                        modifier = Modifier
+                            .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 15.dp),
                         thickness = 1.dp,
                         color = DividerGrey
                     )
-                }
-                else {
+                } else {
                     Box(
                         contentAlignment = Alignment.CenterStart,
                         modifier = Modifier
@@ -210,14 +230,6 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
 //            }
 //        }
     }
-
-
-
-
-
-
-
-
 
 
 //    Column(

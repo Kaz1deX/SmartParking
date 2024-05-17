@@ -45,6 +45,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.smartparking.App
 import com.example.smartparking.R
+import com.example.smartparking.navigation.Screen
 import com.example.smartparking.ui.components.TextField
 import com.example.smartparking.ui.components.rememberImeState
 
@@ -171,6 +172,7 @@ fun RegistrationScreen(navController: NavHostController, context: Context) {
                                 textEmail.value
                             )
                             Toast.makeText(context, "Регистрация прошла успешно!", Toast.LENGTH_SHORT).show()
+                            navController.navigate(Screen.MapScreen.route)
                         } else {
                             Toast.makeText(context, "Заполните все поля!", Toast.LENGTH_SHORT).show()
                         }

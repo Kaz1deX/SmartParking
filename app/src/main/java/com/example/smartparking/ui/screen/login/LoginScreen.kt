@@ -2,6 +2,10 @@ package com.example.smartparking.ui.screen.login
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -28,6 +32,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -69,12 +74,27 @@ fun LoginScreen(navController: NavHostController, context: Context) {
     val application = activity.application as App
     val repository = application.repository
 
+
+
     val viewModel: LoginViewModel = viewModel(
         factory = LoginViewModel.LoginViewModelFactory(
             application,
             repository
         )
     )
+
+    val header = viewModel.header.collectAsState()
+
+    val onBackPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+    val callback = object : OnBackPressedCallback(
+        true // default to enabled
+    ) {
+        override fun handleOnBackPressed() {
+            // Очищаем стек вызовов и переходим на главный экран
+            navController.popBackStack(navController.graph.startDestinationId, false)
+        }
+    }
+    onBackPressedDispatcher!!.addCallback(callback)
 
     LaunchedEffect(key1 = imeState.value) {
         if (imeState.value) scrollState.animateScrollTo(scrollState.maxValue)
@@ -141,8 +161,31 @@ fun LoginScreen(navController: NavHostController, context: Context) {
                     if (textLogin.value != "" && textPassword.value != "") {
                         viewModel.auth(
                             textLogin.value,
-                            textPassword.value
+                            textPassword.value,
+                            onResult = {
+                                when (it) {
+                                    "User not found" -> {
+                                        Toast.makeText(context, "Такого пользователя не существует!", Toast.LENGTH_SHORT).show()
+                                    }
+                                    "Invalid password" -> {
+                                        Toast.makeText(context, "Неверный пароль!", Toast.LENGTH_SHORT).show()
+                                    }
+                                    null -> {
+                                        Toast.makeText(context, "Ошибка на сервере!", Toast.LENGTH_SHORT).show()
+                                    }
+                                    "" -> {
+                                        Toast.makeText(context, "Ошибка на сервере!", Toast.LENGTH_SHORT).show()
+                                    }
+                                    else -> {
+                                        navController.navigate(Screen.MapScreen.route)
+                                    }
+                                }
+                            }
                         )
+
+
+                    } else {
+                        Toast.makeText(context, "Заполните все поля!", Toast.LENGTH_SHORT).show()
                     }
                 },
                 modifier = Modifier
@@ -176,7 +219,7 @@ fun LoginScreen(navController: NavHostController, context: Context) {
         ) {
             Text(text = "Нет аккаунта?", color = Gray, fontSize = 16.sp)
             TextButton(onClick = {
-//                navController.navigate(Screen.RegistrationScreen.route)
+                navController.navigate(Screen.RegistrationScreen.route)
             }) {
                 Text(
                     text = "Регистрация",
