@@ -16,7 +16,7 @@ class MainRepository {
     }
 
     suspend fun register(login: String, password: String, username: String, email: String): String {
-        val userRegister = UserRegister(login, password, username)
+        val userRegister = UserRegister(login, email, password, username)
         val registerResponse = apiService.register(userRegister)
         return registerResponse.token
     }
