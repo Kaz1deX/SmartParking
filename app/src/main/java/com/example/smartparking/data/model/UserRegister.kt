@@ -7,4 +7,5 @@ data class UserRegister(
     val login: String = "",
     val email: String? = "",
     val password: String = "",
+    val username: String = ""
 )
