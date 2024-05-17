@@ -27,7 +27,7 @@ class ApiServiceImpl(
             return if (response.status.isSuccess()) {
                 response.body()
             } else {
-                LoginResponse("", "", "")
+                LoginResponse("")
             }
 
         } catch (ex: RedirectResponseException) {
@@ -49,7 +49,7 @@ class ApiServiceImpl(
             return if (response.status.isSuccess()) {
                 response.body()
             } else {
-                LoginResponse("", "", "")
+                LoginResponse("")
             }
 
         } catch (ex: RedirectResponseException) {
