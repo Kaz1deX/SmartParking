@@ -12,7 +12,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -35,7 +39,7 @@ import com.example.smartparking.ui.theme.DividerGrey
 
 @Composable
 fun FavouritesScreen(navController: NavHostController, context: Context) {
-    Column(
+    Column (
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -51,16 +55,25 @@ fun FavouritesScreen(navController: NavHostController, context: Context) {
             .padding(top = 50.dp)
         )
 
-        val settingsName = listOf("Парковка 1", "Парковка 2", "Парковка 3")
+        val favouriteName = listOf("Парковка 1", "Парковка 2", "Парковка 3", "Парковка 4",
+            "Парковка 5", "Парковка 6", "Парковка 7", "Парковка 8", "Парковка 9", "Парковка 10")
 
-        for(i in settingsName.indices) {
-            FavouriteItem(settingsName[i])
-            if(i != (settingsName.size - 1)) {
-                Divider(modifier = Modifier
-                    .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 15.dp),
-                    thickness = 1.dp,
-                    color = DividerGrey
-                )
+        LazyColumn(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            itemsIndexed(
+                favouriteName
+            ) {index, item ->
+                FavouriteItem(item)
+                if(index != (favouriteName.size - 1)) {
+                    Divider(modifier = Modifier
+                        .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 15.dp),
+                        thickness = 1.dp,
+                        color = DividerGrey
+                    )
+                }
             }
         }
     }
