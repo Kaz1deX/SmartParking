@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="profile">
+        <item>Автомобили</item>
+        <item>Способы оплаты</item>
+        <item>Заказы</item>
+        <item>Промокоды</item>
+        <item>История платежей</item>
+        <item>Удалить профиль</item>
+    </string-array>
+</resources>

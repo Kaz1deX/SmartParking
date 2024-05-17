@@ -14,6 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.example.smartparking.data.model.Booking
+import com.example.smartparking.data.model.Car
+import com.example.smartparking.data.model.Favourite
+import com.example.smartparking.data.model.Parking
 import com.example.smartparking.navigation.Navigation
 import com.example.smartparking.ui.navbar.BottomNavigationBar
 import com.example.smartparking.ui.theme.SmartParkingTheme
