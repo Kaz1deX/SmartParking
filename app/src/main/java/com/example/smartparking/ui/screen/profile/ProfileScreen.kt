@@ -2,6 +2,7 @@ package com.example.smartparking.ui.screen.profile
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,6 +22,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -58,6 +61,12 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
             mainDatabase
         )
     )
+    val cars = viewModel.cars.collectAsState()
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.getCars(onResult = {})
+        viewModel.addCar("123", "Tesla")
+    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -132,6 +141,9 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
             modifier = Modifier
                 .clip(RoundedCornerShape(50.dp))
                 .size(90.dp)
+                .clickable {
+                    viewModel.getCars(onResult = { Log.i("CARS: ", cars.value.toString()) })
+                }
         )
         Text(
             modifier = Modifier.padding(top = 20.dp),

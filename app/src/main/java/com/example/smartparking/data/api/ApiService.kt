@@ -1,6 +1,8 @@
 package com.example.smartparking.data.api
 
 import android.util.Log
+import com.example.smartparking.data.model.Car
+import com.example.smartparking.data.model.CarReceive
 import com.example.smartparking.data.model.LoginResponse
 import com.example.smartparking.data.model.UserLogin
 import com.example.smartparking.data.model.UserRegister
@@ -23,6 +25,10 @@ interface ApiService {
     suspend fun register(userRegister: UserRegister): LoginResponse
 
     suspend fun auth(userLogin: UserLogin): LoginResponse
+
+    suspend fun getCars(login: String): List<Car>
+
+    suspend fun addCar(car: CarReceive): Boolean
 
     companion object {
 

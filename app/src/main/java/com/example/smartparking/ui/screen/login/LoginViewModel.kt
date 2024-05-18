@@ -29,6 +29,7 @@ class LoginViewModel(
 
             if (header != "User not found" && header != "Invalid password" && header != "") {
                 sharedPreferences.saveString(SharedPrefNames.TOKEN, header)
+                sharedPreferences.saveString(SharedPrefNames.LOGIN, login)
             }
 //            _header.value = header
         }
