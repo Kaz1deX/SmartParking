@@ -9,6 +9,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.smartparking.App
+import com.example.smartparking.ui.screen.cars.AddCarScreen
+import com.example.smartparking.ui.screen.cars.CarsScreen
 import com.example.smartparking.ui.screen.favourites.FavouritesScreen
 import com.example.smartparking.ui.screen.login.LoginScreen
 import com.example.smartparking.ui.screen.login.LoginViewModel
@@ -61,6 +63,16 @@ fun Navigation(navController: NavHostController, context: Context) {
         composable(route = Screen.RegistrationScreen.route) {
             NavigationRouter.currentScreen.value = Screen.RegistrationScreen
             RegistrationScreen(navController = navController, context = context)
+        }
+
+        composable(route = Screen.CarsScreen.route) {
+            NavigationRouter.currentScreen.value = Screen.CarsScreen
+            CarsScreen(navController = navController, context = context)
+        }
+
+        composable(route = Screen.AddCarScreen.route) {
+            NavigationRouter.currentScreen.value = Screen.AddCarScreen
+            AddCarScreen(navController = navController, context = context)
         }
     }
 }

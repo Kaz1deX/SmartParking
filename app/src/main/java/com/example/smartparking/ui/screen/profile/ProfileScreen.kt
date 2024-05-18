@@ -38,9 +38,6 @@ import androidx.navigation.NavHostController
 import com.example.smartparking.App
 import com.example.smartparking.R
 import com.example.smartparking.navigation.Screen
-import com.example.smartparking.ui.screen.favourites.FavouriteItem
-import com.example.smartparking.ui.screen.login.LoginViewModel
-import com.example.smartparking.ui.screen.settings.SettingsItem
 import com.example.smartparking.ui.theme.DividerGrey
 
 @Composable
@@ -156,7 +153,7 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
                 profileName
             ) { index, item ->
                 if (index != (profileName.size - 1)) {
-                    SettingsItem(item)
+                    ProfileItem(item, index, navController)
                     Divider(
                         modifier = Modifier
                             .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 15.dp),
@@ -249,7 +246,7 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
 }
 
 @Composable
-fun ProfileItem(name: String) {
+fun ProfileItem(name: String, index: Int, navController: NavHostController) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -257,7 +254,9 @@ fun ProfileItem(name: String) {
             .clip(RoundedCornerShape(10.dp))
             .height(50.dp)
             .clickable {
-
+                if (index == 0) {
+                    navController.navigate(Screen.CarsScreen.route)
+                }
             }
     ) {
         Row(
