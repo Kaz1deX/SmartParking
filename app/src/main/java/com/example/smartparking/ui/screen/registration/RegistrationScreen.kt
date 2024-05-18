@@ -169,10 +169,29 @@ fun RegistrationScreen(navController: NavHostController, context: Context) {
                                 textLogin.value,
                                 textPassword1.value,
                                 textUsername.value,
-                                textEmail.value
+                                textEmail.value,
+                                onResult = {
+                                    when (it) {
+                                        "Email is not valid" -> {
+                                            Toast.makeText(context, "Некорректный email!", Toast.LENGTH_SHORT).show()
+                                        }
+                                        "User already exists" -> {
+                                            Toast.makeText(context, "Такой пользователь уже существует!", Toast.LENGTH_SHORT).show()
+                                        }
+                                        null -> {
+                                            Toast.makeText(context, "Ошибка на сервере!", Toast.LENGTH_SHORT).show()
+                                        }
+                                        "" -> {
+                                            Toast.makeText(context, "Ошибка на сервере!", Toast.LENGTH_SHORT).show()
+                                        }
+                                        else -> {
+                                            Toast.makeText(context, "Регистрация прошла успешно!", Toast.LENGTH_SHORT).show()
+                                            navController.navigate(Screen.MapScreen.route)
+                                        }
+                                    }
+                                }
                             )
-                            Toast.makeText(context, "Регистрация прошла успешно!", Toast.LENGTH_SHORT).show()
-                            navController.navigate(Screen.MapScreen.route)
+
                         } else {
                             Toast.makeText(context, "Заполните все поля!", Toast.LENGTH_SHORT).show()
                         }

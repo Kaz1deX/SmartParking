@@ -83,8 +83,6 @@ fun LoginScreen(navController: NavHostController, context: Context) {
         )
     )
 
-    val header = viewModel.header.collectAsState()
-
     val onBackPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
     val callback = object : OnBackPressedCallback(
         true // default to enabled

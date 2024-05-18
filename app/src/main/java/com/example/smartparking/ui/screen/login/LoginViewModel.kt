@@ -19,8 +19,8 @@ class LoginViewModel(
 ) : AndroidViewModel(application) {
     private val sharedPreferences = SharedPreferences(application)
 
-    private val _header: MutableStateFlow<String> = MutableStateFlow("")
-    val header = _header.asStateFlow()
+//    private val _header: MutableStateFlow<String> = MutableStateFlow("")
+//    val header = _header.asStateFlow()
 
     fun auth(login: String, password: String, onResult: (header: String) -> Unit) {
         viewModelScope.launch {
@@ -30,7 +30,7 @@ class LoginViewModel(
             if (header != "User not found" && header != "Invalid password" && header != "") {
                 sharedPreferences.saveString(SharedPrefNames.TOKEN, header)
             }
-            _header.value = header
+//            _header.value = header
         }
     }
 
