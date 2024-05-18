@@ -87,4 +87,14 @@ dependencies {
     implementation("io.ktor:ktor-client-logging:2.3.5")
     implementation("ch.qos.logback:logback-classic:1.2.6")
 
+    // Room
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    implementation("androidx.room:room-common:2.6.1")
+    implementation("com.google.code.gson:gson:2.10.1")
+    implementation(kotlin("stdlib-jdk8"))
+    ksp("androidx.room:room-compiler:2.6.1")
+    ksp("androidx.lifecycle:lifecycle-common:2.7.0")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+
 }
