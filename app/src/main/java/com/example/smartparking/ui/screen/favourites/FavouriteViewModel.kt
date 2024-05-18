@@ -1,4 +1,4 @@
-package com.example.smartparking.ui.screen.profile
+package com.example.smartparking.ui.screen.favourites
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -9,28 +9,16 @@ import com.example.smartparking.data.room.database.MainDatabase
 import com.example.smartparking.data.sharedPref.SharedPrefNames
 import com.example.smartparking.data.sharedPref.SharedPreferences
 
-class ProfileViewModel(
+class FavouriteViewModel(
     application: Application,
-    private val repository: MainRepository,
     mainDatabase: MainDatabase
 ) : AndroidViewModel(application) {
-    private val sharedPreferences = SharedPreferences(application)
 
-
-    fun checkToken(): Boolean {
-        return sharedPreferences.getValueString(SharedPrefNames.TOKEN) != null
-    }
-
-    fun clearSharedPref() {
-        sharedPreferences.clearSharedPreference()
-    }
-
-    class ProfileViewModelFactory(
+    class FavouriteViewModelFactory(
         private val application: Application,
-        private val repository: MainRepository,
         private val mainDatabase: MainDatabase
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T =
-            ProfileViewModel(application, repository, mainDatabase) as T
+            FavouriteViewModel(application, mainDatabase) as T
     }
 }

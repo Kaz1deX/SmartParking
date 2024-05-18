@@ -49,11 +49,13 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
     val activity = LocalContext.current as Activity
     val application = activity.application as App
     val repository = application.repository
+    val mainDatabase = application.mainDatabase
 
     val viewModel: ProfileViewModel = viewModel(
         factory = ProfileViewModel.ProfileViewModelFactory(
             application,
-            repository
+            repository,
+            mainDatabase
         )
     )
 

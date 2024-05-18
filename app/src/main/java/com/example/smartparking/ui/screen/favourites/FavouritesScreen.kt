@@ -1,5 +1,6 @@
 package com.example.smartparking.ui.screen.favourites
 
+import android.app.Activity
 import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
@@ -32,13 +34,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.smartparking.App
 import com.example.smartparking.R
+import com.example.smartparking.ui.screen.profile.ProfileViewModel
 import com.example.smartparking.ui.screen.settings.SettingsItem
 import com.example.smartparking.ui.theme.DividerGrey
 
 @Composable
 fun FavouritesScreen(navController: NavHostController, context: Context) {
+
+    val activity = LocalContext.current as Activity
+    val application = activity.application as App
+    val mainDatabase = application.mainDatabase
+
+    val viewModel: FavouriteViewModel = viewModel(
+        factory = FavouriteViewModel.FavouriteViewModelFactory(
+            application,
+            mainDatabase
+        )
+    )
+
     Column (
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
