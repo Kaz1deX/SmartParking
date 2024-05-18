@@ -74,8 +74,6 @@ fun LoginScreen(navController: NavHostController, context: Context) {
     val application = activity.application as App
     val repository = application.repository
 
-
-
     val viewModel: LoginViewModel = viewModel(
         factory = LoginViewModel.LoginViewModelFactory(
             application,
