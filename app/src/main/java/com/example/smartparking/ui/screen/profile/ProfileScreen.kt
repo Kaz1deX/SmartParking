@@ -40,6 +40,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.smartparking.App
 import com.example.smartparking.R
+import com.example.smartparking.data.room.database.MainDatabase
 import com.example.smartparking.navigation.Screen
 import com.example.smartparking.ui.theme.DividerGrey
 
@@ -82,6 +83,7 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
             IconButton(
                 onClick = {
                     viewModel.clearSharedPref()
+                    viewModel.deleteTables()
                     navController.navigate(Screen.LoginScreen.route)
                 },
                 modifier = Modifier
