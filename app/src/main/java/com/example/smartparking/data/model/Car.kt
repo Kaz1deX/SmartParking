@@ -11,7 +11,6 @@ data class Car(
 
 fun Car.toCarEntity(): CarEntity {
     return CarEntity(
-        id = 0,
         number = number,
         model = model
     )

@@ -5,7 +5,6 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "cars_table")
 data class CarEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int,
-    val number: String,
+    @PrimaryKey val number: String,
     val model: String
 )
