@@ -16,16 +16,29 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.graphics.Color.Companion.Green
+import androidx.compose.ui.graphics.Color.Companion.Red
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -41,6 +54,7 @@ import com.example.smartparking.App
 import com.example.smartparking.R
 import com.example.smartparking.data.model.Parking
 import com.example.smartparking.ui.screen.cars.CarsScreen
+import com.example.smartparking.ui.theme.Blue
 import com.example.smartparking.ui.theme.DividerGrey
 
 @Composable
@@ -101,6 +115,10 @@ fun MapScreen(navController: NavHostController, context: Context) {
 
 @Composable
 fun MapItem(parking: Parking) {
+    val isButtonEnabled = remember { mutableStateOf(false) }
+    val buttonColors = if (isButtonEnabled.value) Blue else Black
+
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -142,6 +160,20 @@ fun MapItem(parking: Parking) {
                         .padding(start = 15.dp, top = 5.dp)
                 )
             }
+        }
+        IconButton(
+            onClick = {
+                isButtonEnabled.value = !isButtonEnabled.value
+            },
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+        ) {
+            Icon(
+//                imageVector = Icons.Default.Favorite,
+                imageVector = if (isButtonEnabled.value) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                contentDescription = "Favourite",
+                tint = buttonColors
+            )
         }
     }
 }
