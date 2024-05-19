@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.smartparking.data.model.Car
 import com.example.smartparking.data.model.CarReceive
 import com.example.smartparking.data.repositories.MainRepository
@@ -45,11 +46,25 @@ class ProfileViewModel(
         }
     }
 
+    fun deleteTables() {
+        viewModelScope.launch {
+            repository.deleteCarsTable()
+            repository.deleteFavouriteTable()
+        }
+    }
+
     fun addCar(number: String, model: String) {
         viewModelScope.launch {
             val login = sharedPreferences.getValueString(SharedPrefNames.LOGIN)
             val car = CarReceive(login!!, number, model)
             repository.addCar(car)
+        }
+    }
+
+    fun deleteCar(number: String) {
+        viewModelScope.launch {
+            val login = sharedPreferences.getValueString(SharedPrefNames.LOGIN)
+            repository.deleteCar(login!!, number)
         }
     }
 

@@ -22,4 +22,7 @@ interface FavouriteDao {
 
     @Delete
     suspend fun deleteFavourite(favouriteEntity: FavouriteEntity)
+
+    @Query("DELETE FROM favourites_table")
+    suspend fun deleteFavouriteTable()
 }

@@ -10,10 +10,12 @@ import com.example.smartparking.data.model.UserRegister
 import com.example.smartparking.data.model.toCar
 import com.example.smartparking.data.model.toCarEntity
 import com.example.smartparking.data.room.dao.CarDao
+import com.example.smartparking.data.room.dao.FavouriteDao
 import com.example.smartparking.util.isOnline
 
 class MainRepository(
     private val carDao: CarDao,
+    private val favouriteDao: FavouriteDao,
     private val context: Context
 ) {
     private val apiService by lazy {
@@ -63,6 +65,22 @@ class MainRepository(
             carDao.insertCar(carEntity)
         }
         return addCar
+    }
+
+    suspend fun deleteCar(login: String, number: String): Boolean {
+        val deleteCar = apiService.deleteCar(login, number)
+        if (deleteCar) {
+            carDao.deleteCarByNumber(number)
+        }
+        return deleteCar
+    }
+
+    suspend fun deleteCarsTable() {
+        carDao.deleteCarsTable()
+    }
+
+    suspend fun deleteFavouriteTable() {
+        favouriteDao.deleteFavouriteTable()
     }
 
     suspend fun getParking(): List<Parking> {
