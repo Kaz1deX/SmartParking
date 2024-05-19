@@ -116,10 +116,9 @@ fun FavouriteItem(name: String) {
                 .padding(start = 15.dp, end = 15.dp)
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_launcher_background),
+                painter = painterResource(id = R.drawable.favourites_icon),
                 contentDescription = "",
                 modifier = Modifier
-                    .clip(RoundedCornerShape(50.dp))
                     .size(42.dp)
             )
             Column {

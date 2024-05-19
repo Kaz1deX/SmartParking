@@ -17,8 +17,7 @@ import kotlinx.coroutines.launch
 
 class ProfileViewModel(
     application: Application,
-    private val repository: MainRepository,
-    mainDatabase: MainDatabase
+    private val repository: MainRepository
 ) : AndroidViewModel(application) {
     private val sharedPreferences = SharedPreferences(application)
 
@@ -56,10 +55,9 @@ class ProfileViewModel(
 
     class ProfileViewModelFactory(
         private val application: Application,
-        private val repository: MainRepository,
-        private val mainDatabase: MainDatabase
+        private val repository: MainRepository
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T =
-            ProfileViewModel(application, repository, mainDatabase) as T
+            ProfileViewModel(application, repository) as T
     }
 }
