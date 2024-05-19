@@ -1,5 +1,8 @@
 package com.example.smartparking.data.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Parking(
     val id: Int,
     val name: String? = null,

@@ -172,6 +172,9 @@ fun LoginScreen(navController: NavHostController, context: Context) {
                                     "" -> {
                                         Toast.makeText(context, "Ошибка на сервере!", Toast.LENGTH_SHORT).show()
                                     }
+                                    "No internet connection" -> {
+                                        Toast.makeText(context, "Нет подключения к интернету!", Toast.LENGTH_SHORT).show()
+                                    }
                                     else -> {
                                         navController.navigate(Screen.MapScreen.route)
                                     }

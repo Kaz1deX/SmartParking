@@ -1,5 +1,6 @@
 package com.example.smartparking.ui.screen.cars
 
+import android.app.Activity
 import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -28,6 +29,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,17 +43,39 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.smartparking.App
 import com.example.smartparking.R
 import com.example.smartparking.navigation.Screen
 import com.example.smartparking.ui.screen.favourites.FavouriteItem
 import com.example.smartparking.ui.screen.login.LoginScreen
+import com.example.smartparking.ui.screen.profile.ProfileViewModel
 import com.example.smartparking.ui.theme.DividerGrey
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CarsScreen(navController: NavHostController, context: Context) {
+    val activity = LocalContext.current as Activity
+    val application = activity.application as App
+    val repository = application.repository
+    val mainDatabase = application.mainDatabase
+
+    val viewModel: ProfileViewModel = viewModel(
+        factory = ProfileViewModel.ProfileViewModelFactory(
+            application,
+            repository,
+            mainDatabase
+        )
+    )
+    val cars = viewModel.cars.collectAsState()
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.getCars(onResult = {})
+    }
+
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
 

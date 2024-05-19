@@ -184,6 +184,9 @@ fun RegistrationScreen(navController: NavHostController, context: Context) {
                                         "" -> {
                                             Toast.makeText(context, "Ошибка на сервере!", Toast.LENGTH_SHORT).show()
                                         }
+                                        "No internet connection" -> {
+                                            Toast.makeText(context, "Нет подключения к интернету!", Toast.LENGTH_SHORT).show()
+                                        }
                                         else -> {
                                             Toast.makeText(context, "Регистрация прошла успешно!", Toast.LENGTH_SHORT).show()
                                             navController.navigate(Screen.MapScreen.route)

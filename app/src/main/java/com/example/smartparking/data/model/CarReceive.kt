@@ -1,5 +1,6 @@
 package com.example.smartparking.data.model
 
+import com.example.smartparking.data.room.entity.CarEntity
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -8,3 +9,11 @@ data class CarReceive(
     val number: String,
     val model: String
 )
+
+fun CarReceive.toCarEntity(): CarEntity {
+    return CarEntity(
+        id = 0,
+        number = number,
+        model = model
+    )
+}

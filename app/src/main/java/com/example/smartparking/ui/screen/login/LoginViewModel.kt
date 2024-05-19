@@ -27,7 +27,7 @@ class LoginViewModel(
             val header = repository.auth(login, password)
             onResult(header)
 
-            if (header != "User not found" && header != "Invalid password" && header != "") {
+            if (header != "User not found" && header != "Invalid password" && header != "" && header != "No internet connection") {
                 sharedPreferences.saveString(SharedPrefNames.TOKEN, header)
                 sharedPreferences.saveString(SharedPrefNames.LOGIN, login)
             }
