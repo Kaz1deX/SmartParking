@@ -15,7 +15,7 @@ interface CarDao {
     @Query("SELECT COUNT(*) FROM cars_table")
     suspend fun getCarsCount(): Int
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCar(carEntity: CarEntity)
 
     @Delete

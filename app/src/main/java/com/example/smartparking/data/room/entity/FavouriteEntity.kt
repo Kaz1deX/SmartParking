@@ -8,6 +8,3 @@ data class FavouriteEntity(
     @PrimaryKey(autoGenerate = false) val parkingId: String,
     val userLogin: String
 )
-//{
-//    fun convertToFieldModel() = FieldModel(favourite, "")
-//}

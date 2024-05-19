@@ -3,6 +3,7 @@ package com.example.smartparking.data.api
 import com.example.smartparking.data.model.Car
 import com.example.smartparking.data.model.CarReceive
 import com.example.smartparking.data.model.LoginResponse
+import com.example.smartparking.data.model.Parking
 import com.example.smartparking.data.model.UserLogin
 import com.example.smartparking.data.model.UserRegister
 import io.ktor.client.HttpClient
@@ -85,6 +86,22 @@ class ApiServiceImpl(
                 return false
                 throw Exception("Request failed with status: ${response.status.value}")
             }
+
+        } catch (ex: RedirectResponseException) {
+            throw Exception("Redirect error: ${ex.response.status.description}")
+        } catch (ex: ClientRequestException) {
+            throw Exception("Client request error: ${ex.response.status.description}")
+        } catch (ex: ServerResponseException) {
+            throw Exception("Server response error: ${ex.response.status.description}")
+        }
+    }
+
+    override suspend fun getParking(): List<Parking> {
+        try {
+            val response: HttpResponse = client.get {
+                url(ApiRoutes.BASE_URL + ApiRoutes.PARKING)
+            }
+            return response.body()
 
         } catch (ex: RedirectResponseException) {
             throw Exception("Redirect error: ${ex.response.status.description}")

@@ -5,11 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "cars_table")
 data class CarEntity(
-    @PrimaryKey(autoGenerate = false) val id: Int,
-    val userLogin: String,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val number: String,
     val model: String
 )
-//{
-//    fun convertToFieldModel() = FieldModel(car, "")
-//}
