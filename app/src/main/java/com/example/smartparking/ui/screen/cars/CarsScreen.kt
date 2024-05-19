@@ -17,11 +17,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -37,10 +37,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,8 +51,6 @@ import com.example.smartparking.App
 import com.example.smartparking.R
 import com.example.smartparking.data.model.Car
 import com.example.smartparking.navigation.Screen
-import com.example.smartparking.ui.screen.favourites.FavouriteItem
-import com.example.smartparking.ui.screen.login.LoginScreen
 import com.example.smartparking.ui.screen.profile.ProfileViewModel
 import com.example.smartparking.ui.theme.DividerGrey
 
@@ -241,6 +237,18 @@ fun CarItem(car: Car) {
                         .padding(start = 15.dp, top = 5.dp)
                 )
             }
+        }
+        IconButton(
+            onClick = {
+
+            },
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = "Delete",
+            )
         }
     }
 }
