@@ -2,6 +2,7 @@ package com.example.smartparking.ui.screen.cars
 
 import android.app.Activity
 import android.content.Context
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -35,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -48,6 +51,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.smartparking.App
 import com.example.smartparking.R
+import com.example.smartparking.data.model.Car
 import com.example.smartparking.navigation.Screen
 import com.example.smartparking.ui.screen.favourites.FavouriteItem
 import com.example.smartparking.ui.screen.login.LoginScreen
@@ -60,13 +64,11 @@ fun CarsScreen(navController: NavHostController, context: Context) {
     val activity = LocalContext.current as Activity
     val application = activity.application as App
     val repository = application.repository
-    val mainDatabase = application.mainDatabase
 
     val viewModel: ProfileViewModel = viewModel(
         factory = ProfileViewModel.ProfileViewModelFactory(
             application,
-            repository,
-            mainDatabase
+            repository
         )
     )
     val cars = viewModel.cars.collectAsState()
@@ -117,37 +119,27 @@ fun CarsScreen(navController: NavHostController, context: Context) {
             )
         }
     ) { values ->
-//        Box(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .padding(values)
-//        )
-
-
         Column (
-//            modifier = Modifier.fillMaxSize(),
-//            horizontalAlignment = Alignment.CenterHorizontally
             modifier = Modifier
                 .padding(values)
                 .fillMaxSize()
-
         ) {
-            val car = listOf(
-                listOf("Мерседес 1", "ооо12оо"),
-                listOf("БМВ 2", "авп65ии"),
-                listOf("БМВ 2", "авп65ии"),
-                listOf("БМВ 2", "авп65ии"),
-                listOf("БМВ 2", "авп65ии"),
-                listOf("БМВ 2", "авп65ии"),
-                listOf("БМВ 2", "авп65ии"),
-                listOf("БМВ 2", "авп65ии"),
-                listOf("БМВ 2", "авп65ии"),
-                listOf("БМВ 2", "авп65ии"),
-                listOf("БМВ 2", "авп65ии"),
-                listOf("БМВ 2", "авп65ии"),
-                listOf("БМВ 2", "авп65ии"),
-                listOf("БМВ 2", "авп65ии"),
-            )
+//            val car = listOf(
+//                listOf("Мерседес 1", "ооо12оо"),
+//                listOf("БМВ 2", "авп65ии"),
+//                listOf("БМВ 2", "авп65ии"),
+//                listOf("БМВ 2", "авп65ии"),
+//                listOf("БМВ 2", "авп65ии"),
+//                listOf("БМВ 2", "авп65ии"),
+//                listOf("БМВ 2", "авп65ии"),
+//                listOf("БМВ 2", "авп65ии"),
+//                listOf("БМВ 2", "авп65ии"),
+//                listOf("БМВ 2", "авп65ии"),
+//                listOf("БМВ 2", "авп65ии"),
+//                listOf("БМВ 2", "авп65ии"),
+//                listOf("БМВ 2", "авп65ии"),
+//                listOf("БМВ 2", "авп65ии"),
+//            )
 
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -156,10 +148,10 @@ fun CarsScreen(navController: NavHostController, context: Context) {
                     .padding(top = 15.dp)
             ) {
                 itemsIndexed(
-                    car
+                    cars.value
                 ) {index, item ->
                     CarItem(item)
-                    if(index != (car.size - 1)) {
+                    if(index != (cars.value.size - 1)) {
                         Divider(modifier = Modifier
                             .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 15.dp),
                             thickness = 1.dp,
@@ -207,7 +199,7 @@ fun CarsScreen(navController: NavHostController, context: Context) {
 }
 
 @Composable
-fun CarItem(car: List<String>) {
+fun CarItem(car: Car) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -225,16 +217,15 @@ fun CarItem(car: List<String>) {
                 .fillMaxSize()
                 .padding(start = 15.dp, end = 15.dp)
         ) {
-            Icon(
+            Image(
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = "",
                 modifier = Modifier
-                    .clip(RoundedCornerShape(50.dp))
                     .size(42.dp)
             )
             Column {
                 Text(
-                    text = "Машина: " + car[0],
+                    text = "Машина: " + car.model,
                     color = Color.Black,
                     fontSize = 15.sp,
                     textAlign = TextAlign.Center,
@@ -242,7 +233,7 @@ fun CarItem(car: List<String>) {
                         .padding(start = 15.dp)
                 )
                 Text(
-                    text = "Номер машины: " + car[1],
+                    text = "Номер машины: " + car.number,
                     color = Color.Gray,
                     fontSize = 12.sp,
                     textAlign = TextAlign.Center,
