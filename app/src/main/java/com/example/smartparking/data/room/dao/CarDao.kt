@@ -21,6 +21,9 @@ interface CarDao {
     @Delete
     suspend fun deleteCar(carEntity: CarEntity)
 
+    @Query("DELETE FROM cars_table WHERE number = :carNumber")
+    suspend fun deleteCarByNumber(carNumber: String)
+
     @Query("DELETE FROM cars_table")
     suspend fun deleteCarsTable()
 }

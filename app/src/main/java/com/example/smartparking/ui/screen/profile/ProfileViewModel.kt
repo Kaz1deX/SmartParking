@@ -61,6 +61,13 @@ class ProfileViewModel(
         }
     }
 
+    fun deleteCar(number: String) {
+        viewModelScope.launch {
+            val login = sharedPreferences.getValueString(SharedPrefNames.LOGIN)
+            repository.deleteCar(login!!, number)
+        }
+    }
+
     class ProfileViewModelFactory(
         private val application: Application,
         private val repository: MainRepository

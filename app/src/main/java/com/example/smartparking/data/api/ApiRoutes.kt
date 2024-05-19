@@ -6,5 +6,6 @@ object ApiRoutes {
     const val REGISTRATION = "/register"
     const val CARS = "/cars"
     const val ADD_CAR = "/add-car"
+    const val DELETE_CAR = "/delete-car"
     const val PARKING = "/parking"
 }

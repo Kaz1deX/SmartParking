@@ -11,6 +11,7 @@ import io.ktor.client.call.body
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.RedirectResponseException
 import io.ktor.client.plugins.ServerResponseException
+import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
@@ -19,6 +20,7 @@ import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.isSuccess
+import io.ktor.http.parameters
 
 class ApiServiceImpl(
     private val client: HttpClient
@@ -102,6 +104,29 @@ class ApiServiceImpl(
                 url(ApiRoutes.BASE_URL + ApiRoutes.PARKING)
             }
             return response.body()
+
+        } catch (ex: RedirectResponseException) {
+            throw Exception("Redirect error: ${ex.response.status.description}")
+        } catch (ex: ClientRequestException) {
+            throw Exception("Client request error: ${ex.response.status.description}")
+        } catch (ex: ServerResponseException) {
+            throw Exception("Server response error: ${ex.response.status.description}")
+        }
+    }
+
+    override suspend fun deleteCar(login: String, number: String): Boolean {
+        try {
+            val response: HttpResponse = client.delete {
+                url(ApiRoutes.BASE_URL + ApiRoutes.DELETE_CAR)
+                parameter("login", login)
+                parameter("number", number)
+            }
+
+            if (response.status.isSuccess()) return true
+            else {
+                return false
+                throw Exception("Request failed with status: ${response.status.value}")
+            }
 
         } catch (ex: RedirectResponseException) {
             throw Exception("Redirect error: ${ex.response.status.description}")

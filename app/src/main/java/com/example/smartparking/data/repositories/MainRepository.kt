@@ -67,6 +67,14 @@ class MainRepository(
         return addCar
     }
 
+    suspend fun deleteCar(login: String, number: String): Boolean {
+        val deleteCar = apiService.deleteCar(login, number)
+        if (deleteCar) {
+            carDao.deleteCarByNumber(number)
+        }
+        return deleteCar
+    }
+
     suspend fun deleteCarsTable() {
         carDao.deleteCarsTable()
     }

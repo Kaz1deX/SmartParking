@@ -33,6 +33,8 @@ interface ApiService {
 
     suspend fun getParking(): List<Parking>
 
+    suspend fun deleteCar(login: String, number: String): Boolean
+
     companion object {
 
         fun create(): ApiService {
