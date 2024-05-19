@@ -12,7 +12,6 @@ data class CarReceive(
 
 fun CarReceive.toCarEntity(): CarEntity {
     return CarEntity(
-        id = 0,
         number = number,
         model = model
     )
