@@ -68,6 +68,7 @@ import com.example.smartparking.navigation.Screen
 import com.example.smartparking.ui.components.TextField
 import com.example.smartparking.ui.components.rememberImeState
 import com.example.smartparking.ui.screen.login.LoginViewModel
+import com.example.smartparking.ui.screen.profile.ProfileViewModel
 import com.example.smartparking.ui.theme.Blue
 import com.example.smartparking.ui.theme.DividerGrey
 
@@ -79,6 +80,17 @@ fun AddCarScreen(navController: NavHostController, context: Context) {
 
     val imeState = rememberImeState()
     val scrollState = rememberScrollState()
+
+    val activity = LocalContext.current as Activity
+    val application = activity.application as App
+    val repository = application.repository
+
+    val viewModel: ProfileViewModel = viewModel(
+        factory = ProfileViewModel.ProfileViewModelFactory(
+            application,
+            repository
+        )
+    )
 
     val onBackPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
     val callback = object : OnBackPressedCallback(
@@ -159,7 +171,7 @@ fun AddCarScreen(navController: NavHostController, context: Context) {
             ) {
                 Button(
                     onClick = {
-
+                              viewModel.addCar(textNumber.value, textModel.value)
                     },
                     modifier = Modifier
                         .fillMaxWidth()
