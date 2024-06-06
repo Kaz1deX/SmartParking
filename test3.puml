@@ -1,0 +1,42 @@
+@startuml
+class com.example.smartparking.navigation.NavigationRouter {
++ MutableState<Screen> currentScreen
+}
+
+class com.example.smartparking.navigation.Screen$ProfileScreen {
+}
+class com.example.smartparking.navigation.Screen$MapScreen {
+}
+class com.example.smartparking.navigation.Screen$FavouritesScreen {
+}
+class com.example.smartparking.navigation.Screen$SettingsScreen {
+}
+class com.example.smartparking.navigation.Screen$LoginScreen {
+}
+class com.example.smartparking.navigation.Screen$RegistrationScreen {
+}
+class com.example.smartparking.navigation.Screen$CarsScreen {
+}
+class com.example.smartparking.navigation.Screen$AddCarScreen {
+}
+class com.example.smartparking.navigation.Screen {
+}
+
+
+com.example.smartparking.navigation.Screen +.. com.example.smartparking.navigation.Screen$ProfileScreen
+com.example.smartparking.navigation.Screen <|-- com.example.smartparking.navigation.Screen$ProfileScreen
+com.example.smartparking.navigation.Screen +.. com.example.smartparking.navigation.Screen$MapScreen
+com.example.smartparking.navigation.Screen <|-- com.example.smartparking.navigation.Screen$MapScreen
+com.example.smartparking.navigation.Screen +.. com.example.smartparking.navigation.Screen$FavouritesScreen
+com.example.smartparking.navigation.Screen <|-- com.example.smartparking.navigation.Screen$FavouritesScreen
+com.example.smartparking.navigation.Screen +.. com.example.smartparking.navigation.Screen$SettingsScreen
+com.example.smartparking.navigation.Screen <|-- com.example.smartparking.navigation.Screen$SettingsScreen
+com.example.smartparking.navigation.Screen +.. com.example.smartparking.navigation.Screen$LoginScreen
+com.example.smartparking.navigation.Screen <|-- com.example.smartparking.navigation.Screen$LoginScreen
+com.example.smartparking.navigation.Screen +.. com.example.smartparking.navigation.Screen$RegistrationScreen
+com.example.smartparking.navigation.Screen <|-- com.example.smartparking.navigation.Screen$RegistrationScreen
+com.example.smartparking.navigation.Screen +.. com.example.smartparking.navigation.Screen$CarsScreen
+com.example.smartparking.navigation.Screen <|-- com.example.smartparking.navigation.Screen$CarsScreen
+com.example.smartparking.navigation.Screen +.. com.example.smartparking.navigation.Screen$AddCarScreen
+com.example.smartparking.navigation.Screen <|-- com.example.smartparking.navigation.Screen$AddCarScreen
+@enduml

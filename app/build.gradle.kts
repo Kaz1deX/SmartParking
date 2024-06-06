@@ -88,7 +88,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.2.6")
 
     // Room
-    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-runtime:2.6.0")
     implementation("androidx.room:room-ktx:2.6.1")
     implementation("androidx.room:room-common:2.6.1")
     implementation("com.google.code.gson:gson:2.10.1")
@@ -96,5 +96,20 @@ dependencies {
     ksp("androidx.room:room-compiler:2.6.1")
     ksp("androidx.lifecycle:lifecycle-common:2.7.0")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
+
+
+
+    // JUnit для написания тестов
+    testImplementation("junit:junit:4.13.2")
+
+    // AndroidJUnitRunner и правила для Android-тестов
+    androidTestImplementation("androidx.test:runner:1.5.2")
+    androidTestImplementation("androidx.test:rules:1.5.2")
+
+    // MockK для моков
+    testImplementation("io.mockk:mockk:1.13.4")
+
+    // Корутины для тестирования
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
 
 }

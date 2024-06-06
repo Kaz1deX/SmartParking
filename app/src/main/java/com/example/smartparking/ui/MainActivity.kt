@@ -25,9 +25,7 @@ class MainActivity : ComponentActivity() {
                     bottomBar = {
                         when (NavigationRouter.currentScreen.value) {
                             Screen.LoginScreen,
-                            Screen.RegistrationScreen,
-                            Screen.CarsScreen,
-                            Screen.AddCarScreen -> null
+                            Screen.RegistrationScreen -> null
                             else -> BottomNavigationBar(navController = navController)
                         }
                     }

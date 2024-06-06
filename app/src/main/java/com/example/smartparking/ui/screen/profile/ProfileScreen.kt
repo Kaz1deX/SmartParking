@@ -57,10 +57,10 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
         )
     )
     val cars = viewModel.cars.collectAsState()
+    val availableSlots = viewModel.availableSlots.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
         viewModel.getCars(onResult = {})
-        viewModel.addCar("123", "Tesla")
     }
 
     Column(

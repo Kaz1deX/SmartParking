@@ -122,7 +122,7 @@ fun AddCarScreen(navController: NavHostController, context: Context) {
                         )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { navController.navigate(Screen.CarsScreen.route) }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBackIosNew,
                             contentDescription = "Go Back"
@@ -171,7 +171,8 @@ fun AddCarScreen(navController: NavHostController, context: Context) {
             ) {
                 Button(
                     onClick = {
-                              viewModel.addCar(textNumber.value, textModel.value)
+                        viewModel.addCar(textNumber.value, textModel.value)
+                        navController.navigate(Screen.CarsScreen.route)
                     },
                     modifier = Modifier
                         .fillMaxWidth()

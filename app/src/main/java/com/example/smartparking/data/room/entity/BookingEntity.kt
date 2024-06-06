@@ -6,5 +6,4 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "booking_table")
 data class BookingEntity(
     @PrimaryKey(autoGenerate = true) val id: Int,
-
 )

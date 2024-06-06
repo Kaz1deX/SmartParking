@@ -4,10 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.smartparking.data.repositories.MainRepository
 import com.example.smartparking.data.room.database.MainDatabase
-import com.example.smartparking.data.sharedPref.SharedPrefNames
-import com.example.smartparking.data.sharedPref.SharedPreferences
 
 class FavouriteViewModel(
     application: Application,

@@ -33,6 +33,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -68,6 +70,7 @@ fun CarsScreen(navController: NavHostController, context: Context) {
         )
     )
     val cars = viewModel.cars.collectAsState()
+    val showDeleteDialog = rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(key1 = Unit) {
         viewModel.getCars(onResult = {})
@@ -90,7 +93,7 @@ fun CarsScreen(navController: NavHostController, context: Context) {
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { navController.navigate(Screen.ProfileScreen.route) }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBackIosNew,
                             contentDescription = "Go Back"
@@ -146,7 +149,7 @@ fun CarsScreen(navController: NavHostController, context: Context) {
                 itemsIndexed(
                     cars.value
                 ) {index, item ->
-                    CarItem(item)
+                    CarItem(item, viewModel)
                     if(index != (cars.value.size - 1)) {
                         Divider(modifier = Modifier
                             .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 15.dp),
@@ -195,7 +198,7 @@ fun CarsScreen(navController: NavHostController, context: Context) {
 }
 
 @Composable
-fun CarItem(car: Car) {
+fun CarItem(car: Car, viewModel: ProfileViewModel) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -240,7 +243,7 @@ fun CarItem(car: Car) {
         }
         IconButton(
             onClick = {
-
+                viewModel.deleteCar(car.number)
             },
             modifier = Modifier
                 .align(Alignment.CenterEnd)

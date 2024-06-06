@@ -1,6 +1,8 @@
 package com.example.smartparking.data.api
 
 import android.util.Log
+import com.example.smartparking.data.model.Booking
+import com.example.smartparking.data.model.BookingReceive
 import com.example.smartparking.data.model.Car
 import com.example.smartparking.data.model.CarReceive
 import com.example.smartparking.data.model.LoginResponse
@@ -34,6 +36,14 @@ interface ApiService {
     suspend fun getParking(): List<Parking>
 
     suspend fun deleteCar(login: String, number: String): Boolean
+
+    suspend fun getBooking(login: String): List<Booking>
+
+    suspend fun addBooking(bookingReceive: BookingReceive): Boolean
+
+    suspend fun deleteBooking(bookingId: String): Boolean
+
+    suspend fun getAvailableSlots(parkingId: String, date: String): List<Pair<String, String>>
 
     companion object {
 

@@ -16,7 +16,7 @@ import com.example.smartparking.ui.screen.login.LoginScreen
 import com.example.smartparking.ui.screen.login.LoginViewModel
 import com.example.smartparking.ui.screen.map.MapScreen
 import com.example.smartparking.ui.screen.profile.ProfileScreen
-import com.example.smartparking.ui.screen.registration.RegistrationScreen
+import com.example.smartparking.park.ui.screen.registration.RegistrationScreen
 import com.example.smartparking.ui.screen.settings.SettingsScreen
 
 @Composable

@@ -3,14 +3,11 @@ package com.example.smartparking.data.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Booking(
-    val id: String,
+data class BookingReceive(
     val userLogin: String,
     val parkingId: String,
-    val carNumber: Int,
+    val carNumber: String,
     val checkIn: String,
-    val exit: String?,
-    val amount: Int,
-    val paymentStatus: Boolean,
-    val numberOfPlace: Int,
+    val exit: String,
+    val amount: Int
 )
