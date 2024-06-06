@@ -90,7 +90,7 @@ fun CarsScreen(navController: NavHostController, context: Context) {
                     Spacer(modifier = Modifier.width(20.dp))
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center,
+                        textAlign = TextAlign.Start,
                         text = "Добавленные машины", fontWeight = FontWeight.Medium,
                         color = Color.Black,
 

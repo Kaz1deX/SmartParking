@@ -13,21 +13,32 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Chip
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,10 +61,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.smartparking.App
 import com.example.smartparking.R
+import com.example.smartparking.navigation.Screen
+import com.example.smartparking.ui.screen.cars.CarItem
 import com.example.smartparking.ui.theme.Blue
 import com.example.smartparking.ui.theme.DividerGrey
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
 
@@ -82,178 +95,239 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
         "20:00-21:00"
     )
 
-    Column (
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.my_ground),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .height(150.dp)
-        )
-        Spacer(
-            modifier = Modifier
-                .padding(top = 15.dp)
-        )
-        Text(
-            modifier = Modifier.padding(start = 15.dp, end = 15.dp),
-            text = "name",
-            color = Color.Black,
-            fontSize = 18.sp,
-            textAlign = TextAlign.Center
-        )
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
 
-        Column (
-            horizontalAlignment = Alignment.Start,
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            Text(
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                text = "Адрес",
-                color = Color.Black,
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Start
-            )
-            Text(
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                text = "address",
-                color = Color.Gray,
-                fontSize = 14.sp,
-                textAlign = TextAlign.Start
-            )
-            Divider(
-                modifier = Modifier
-                    .padding(start = 30.dp, end = 30.dp, top = 25.dp, bottom = 25.dp),
-                thickness = 1.dp,
-                color = DividerGrey
-            )
-
-            Text(
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                text = "Описание",
-                color = Color.Black,
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Start
-            )
-            Text(
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                text = "description",
-                color = Color.Gray,
-                fontSize = 14.sp,
-                textAlign = TextAlign.Start
-            )
-            Divider(
-                modifier = Modifier
-                    .padding(start = 30.dp, end = 30.dp, top = 25.dp, bottom = 25.dp),
-                thickness = 1.dp,
-                color = DividerGrey
-            )
-
-            Text(
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                text = "Количество мест",
-                color = Color.Black,
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Start
-            )
-            Text(
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                text = "total_places",
-                color = Color.Gray,
-                fontSize = 14.sp,
-                textAlign = TextAlign.Start
-            )
-            Divider(
-                modifier = Modifier
-                    .padding(start = 30.dp, end = 30.dp, top = 25.dp, bottom = 25.dp),
-                thickness = 1.dp,
-                color = DividerGrey
-            )
-
-            Text(
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                text = "Цена в час",
-                color = Color.Black,
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Start
-            )
-            Text(
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                text = "cost_per_hour",
-                color = Color.Gray,
-                fontSize = 14.sp,
-                textAlign = TextAlign.Start
-            )
-            Divider(
-                modifier = Modifier
-                    .padding(start = 30.dp, end = 30.dp, top = 25.dp, bottom = 25.dp),
-                thickness = 1.dp,
-                color = DividerGrey
-            )
-
-            Text(
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                text = "Наличие зарядной станции",
-                color = Color.Black,
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Start
-            )
-            Text(
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                text = "charging_station",
-                color = Color.Gray,
-                fontSize = 14.sp,
-                textAlign = TextAlign.Start
-            )
-            Divider(
-                modifier = Modifier
-                    .padding(start = 30.dp, end = 30.dp, top = 25.dp, bottom = 10.dp),
-                thickness = 1.dp,
-                color = DividerGrey
-            )
-        }
-
-        FlowRow(
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 15.dp)
-        ) {
-            times.forEach {
-                ActionChips(item = it)
-            }
-        }
-
-        Box(
-            modifier = Modifier.padding(start = 22.dp, end = 22.dp, bottom = 24.dp),
-            contentAlignment = Alignment.CenterStart
-        ) {
-            Button(
-                onClick = {
-
+        topBar = {
+            TopAppBar(
+                title = {
+                    Spacer(modifier = Modifier.width(20.dp))
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Start,
+                        text = "Информация о парковке", fontWeight = FontWeight.Medium,
+                        color = Color.Black,
+                        )
                 },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(54.dp),
-                shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigate(Screen.MapScreen.route) }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBackIosNew,
+                            contentDescription = "Go Back"
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    navigationIconContentColor = Color.Black,
+                    actionIconContentColor = Color.Black,
+                    containerColor = Color.Transparent
                 )
+            )
+        }
+    ) { values ->
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .padding(values)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.my_ground),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .height(150.dp)
+            )
+            Spacer(
+                modifier = Modifier
+                    .padding(top = 15.dp)
+            )
+            Text(
+                modifier = Modifier.padding(start = 15.dp, end = 15.dp),
+                text = "name",
+                color = Color.Black,
+                fontSize = 18.sp,
+                textAlign = TextAlign.Center
+            )
+
+            Column (
+                horizontalAlignment = Alignment.Start,
+                modifier = Modifier
+                    .fillMaxSize()
             ) {
                 Text(
-                    text = "Забронировать",
-                    style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight(500))
+                    modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                    text = "Адрес",
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Start
+                )
+                Text(
+                    modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                    text = "address",
+                    color = Color.Gray,
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Start
+                )
+                Divider(
+                    modifier = Modifier
+                        .padding(start = 30.dp, end = 30.dp, top = 25.dp, bottom = 25.dp),
+                    thickness = 1.dp,
+                    color = DividerGrey
+                )
+
+                Text(
+                    modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                    text = "Описание",
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Start
+                )
+                Text(
+                    modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                    text = "description",
+                    color = Color.Gray,
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Start
+                )
+                Divider(
+                    modifier = Modifier
+                        .padding(start = 30.dp, end = 30.dp, top = 25.dp, bottom = 25.dp),
+                    thickness = 1.dp,
+                    color = DividerGrey
+                )
+
+                Text(
+                    modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                    text = "Количество мест",
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Start
+                )
+                Text(
+                    modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                    text = "total_places",
+                    color = Color.Gray,
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Start
+                )
+                Divider(
+                    modifier = Modifier
+                        .padding(start = 30.dp, end = 30.dp, top = 25.dp, bottom = 25.dp),
+                    thickness = 1.dp,
+                    color = DividerGrey
+                )
+
+                Text(
+                    modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                    text = "Цена в час",
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Start
+                )
+                Text(
+                    modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                    text = "cost_per_hour",
+                    color = Color.Gray,
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Start
+                )
+                Divider(
+                    modifier = Modifier
+                        .padding(start = 30.dp, end = 30.dp, top = 25.dp, bottom = 25.dp),
+                    thickness = 1.dp,
+                    color = DividerGrey
+                )
+
+                Text(
+                    modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                    text = "Наличие зарядной станции",
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Start
+                )
+                Text(
+                    modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                    text = "charging_station",
+                    color = Color.Gray,
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Start
+                )
+                Divider(
+                    modifier = Modifier
+                        .padding(start = 30.dp, end = 30.dp, top = 25.dp, bottom = 10.dp),
+                    thickness = 1.dp,
+                    color = DividerGrey
                 )
             }
+
+            FlowRow(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 15.dp)
+            ) {
+                times.forEach {
+                    ActionChips(item = it)
+                }
+            }
+
+            Box(
+                modifier = Modifier.padding(start = 22.dp, end = 22.dp, bottom = 24.dp),
+                contentAlignment = Alignment.CenterStart
+            ) {
+                Button(
+                    onClick = {
+
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(54.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                ) {
+                    Text(
+                        text = "Забронировать",
+                        style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight(500))
+                    )
+                }
+            }
         }
+
+
+
+//        Column(
+//            modifier = Modifier
+//                .padding(values)
+//                .fillMaxSize()
+//        ) {
+//            LazyColumn(
+//                horizontalAlignment = Alignment.CenterHorizontally,
+//                modifier = Modifier
+//                    .fillMaxSize()
+//                    .padding(top = 15.dp)
+//            ) {
+//                itemsIndexed(
+//                    cars.value
+//                ) { index, item ->
+//                    CarItem(item, viewModel)
+//                    if (index != (cars.value.size - 1)) {
+//                        Divider(
+//                            modifier = Modifier
+//                                .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 15.dp),
+//                            thickness = 1.dp,
+//                            color = DividerGrey
+//                        )
+//                    }
+//                }
+//            }
+//        }
     }
 }
 

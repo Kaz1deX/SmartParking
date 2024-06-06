@@ -113,10 +113,9 @@ fun AddCarScreen(navController: NavHostController, context: Context) {
         topBar = {
             TopAppBar(
                 title = {
-                    Spacer(modifier = Modifier.width(20.dp))
                     Text(
-                        modifier = Modifier
-                            .padding(start = 50.dp),
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Start,
                         text = "Добавление машины", fontWeight = FontWeight.Medium,
                         color = Color.Black
                         )
