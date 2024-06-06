@@ -94,6 +94,11 @@ class MainRepository(
         }
     }
 
+    suspend fun getParkingById(parkingId: String): Parking {
+        val parking = apiService.getParkingById(parkingId)
+        return parking
+    }
+
     suspend fun getAllBooking(login: String): List<Booking> {
         if (isOnline(context)) {
             val booking = apiService.getBooking(login)

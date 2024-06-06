@@ -2,7 +2,7 @@ package com.example.smartparking.ui.screen.map
 
 import android.app.Activity
 import android.content.Context
-import android.widget.Toast
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,36 +13,25 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Chip
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -61,14 +50,20 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.smartparking.App
 import com.example.smartparking.R
-import com.example.smartparking.navigation.Screen
-import com.example.smartparking.ui.screen.cars.CarItem
 import com.example.smartparking.ui.theme.Blue
 import com.example.smartparking.ui.theme.DividerGrey
+import com.example.smartparking.util.Constants
 
-@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
+    val parkingId = remember {
+        val route =
+            navController.currentBackStackEntry?.arguments?.getString(Constants.KEY_PARKING_ID)
+        route?.substringAfterLast("/") ?: ""
+    }
+    Log.i("PARKINGID: ", parkingId)
+
 
     val activity = LocalContext.current as Activity
     val application = activity.application as App
@@ -80,6 +75,16 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
             repository
         )
     )
+
+    val parking = viewModel.parkingOne.collectAsState()
+    val screenState = rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.getParking()
+        viewModel.getParkingById(parkingId, onResult = {screenState.value = !screenState.value})
+    }
+
+    Log.i("PARKINGONE: ", parking.value.toString())
 
     val times = listOf(
         "09:00-10:00",
@@ -150,6 +155,31 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center
             )
+    if (screenState.value) {
+        Column (
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.my_ground),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .height(150.dp)
+            )
+            Spacer(
+                modifier = Modifier
+                    .padding(top = 15.dp)
+            )
+            Text(
+                modifier = Modifier.padding(start = 15.dp, end = 15.dp),
+                text = parking.value!!.name,
+                color = Color.Black,
+                fontSize = 18.sp,
+                textAlign = TextAlign.Center
+            )
 
             Column (
                 horizontalAlignment = Alignment.Start,
@@ -166,7 +196,7 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
                 )
                 Text(
                     modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                    text = "address",
+                    text = parking.value!!.address,
                     color = Color.Gray,
                     fontSize = 14.sp,
                     textAlign = TextAlign.Start
@@ -188,7 +218,7 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
                 )
                 Text(
                     modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                    text = "description",
+                    text = parking.value!!.description,
                     color = Color.Gray,
                     fontSize = 14.sp,
                     textAlign = TextAlign.Start
@@ -210,7 +240,7 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
                 )
                 Text(
                     modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                    text = "total_places",
+                    text = parking.value!!.totalPlaces.toString(),
                     color = Color.Gray,
                     fontSize = 14.sp,
                     textAlign = TextAlign.Start
@@ -232,7 +262,7 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
                 )
                 Text(
                     modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                    text = "cost_per_hour",
+                    text = parking.value!!.costPerHour.toString(),
                     color = Color.Gray,
                     fontSize = 14.sp,
                     textAlign = TextAlign.Start
@@ -254,7 +284,7 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
                 )
                 Text(
                     modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                    text = "charging_station",
+                    text = if (parking.value!!.chargingStation) "Да" else "Нет",
                     color = Color.Gray,
                     fontSize = 14.sp,
                     textAlign = TextAlign.Start
@@ -328,6 +358,15 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
 //                }
 //            }
 //        }
+    } else {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            androidx.compose.material3.CircularProgressIndicator(
+                color = Blue
+            )
+        }
     }
 }
 

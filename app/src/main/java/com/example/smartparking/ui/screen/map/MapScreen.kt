@@ -2,6 +2,7 @@ package com.example.smartparking.ui.screen.map
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -64,10 +65,13 @@ fun MapScreen(navController: NavHostController, context: Context) {
         )
     )
     val parkings = viewModel.parking.collectAsState()
+    val parkingOne = viewModel.parkingOne.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
         viewModel.getParking()
+        viewModel.getParkingById("1", onResult = {})
     }
+    Log.i("RESULT", parkingOne.value.toString())
 
     Column (
         modifier = Modifier.fillMaxSize(),
@@ -118,7 +122,7 @@ fun MapItem(parking: Parking, navController: NavHostController) {
             .clip(RoundedCornerShape(10.dp))
             .height(50.dp)
             .clickable {
-                navController.navigate(Screen.ChoiceParkingScreen.route)
+                navController.navigate(Screen.ChoiceParkingScreen.passParkingId(parking.id))
             }
     ) {
         Row(
