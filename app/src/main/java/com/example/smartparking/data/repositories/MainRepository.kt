@@ -2,6 +2,8 @@ package com.example.smartparking.data.repositories
 
 import android.content.Context
 import com.example.smartparking.data.api.ApiService
+import com.example.smartparking.data.model.Booking
+import com.example.smartparking.data.model.BookingReceive
 import com.example.smartparking.data.model.Car
 import com.example.smartparking.data.model.CarReceive
 import com.example.smartparking.data.model.Parking
@@ -87,6 +89,42 @@ class MainRepository(
         if (isOnline(context)) {
             val parking = apiService.getParking()
             return parking
+        } else {
+            return emptyList()
+        }
+    }
+
+    suspend fun getAllBooking(login: String): List<Booking> {
+        if (isOnline(context)) {
+            val booking = apiService.getBooking(login)
+            return booking
+        } else {
+            return emptyList()
+        }
+    }
+
+    suspend fun addBooking(booking: BookingReceive): Boolean {
+        if (isOnline(context)) {
+            val addBooking = apiService.addBooking(booking)
+            return addBooking
+        } else {
+            return false
+        }
+    }
+
+    suspend fun deleteBooking(bookingId: String): Boolean {
+        if (isOnline(context)) {
+            val deleteBooking = apiService.deleteBooking(bookingId)
+            return deleteBooking
+        } else {
+            return false
+        }
+    }
+
+    suspend fun getAvailableSlots(parkingId: String, date: String): List<Pair<String, String>> {
+        if (isOnline(context)) {
+            val availableSlots = apiService.getAvailableSlots(parkingId, date)
+            return availableSlots
         } else {
             return emptyList()
         }

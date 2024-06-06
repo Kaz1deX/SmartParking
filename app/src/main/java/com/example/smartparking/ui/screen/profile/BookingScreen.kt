@@ -1,7 +1,8 @@
-package com.example.smartparking.ui.screen.cars
+package com.example.smartparking.ui.screen.profile
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,10 +17,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.AlertDialog
@@ -46,27 +47,26 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.smartparking.App
 import com.example.smartparking.R
-import com.example.smartparking.data.model.Car
 import com.example.smartparking.navigation.Screen
-import com.example.smartparking.ui.screen.profile.ProfileViewModel
 import com.example.smartparking.ui.theme.Black18
 import com.example.smartparking.ui.theme.DividerGrey
 import com.example.smartparking.ui.theme.Whiteff
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CarsScreen(navController: NavHostController, context: Context) {
+fun BookingScreen(navController: NavHostController, context: Context) {
     val activity = LocalContext.current as Activity
     val application = activity.application as App
     val repository = application.repository
+
+    val showExitDialog = rememberSaveable { mutableStateOf(false) }
+    val selectedBookingId = rememberSaveable { mutableStateOf("") }
 
     val viewModel: ProfileViewModel = viewModel(
         factory = ProfileViewModel.ProfileViewModelFactory(
@@ -74,12 +74,12 @@ fun CarsScreen(navController: NavHostController, context: Context) {
             repository
         )
     )
-    val cars = viewModel.cars.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
-        viewModel.getCars(onResult = {})
+        viewModel.getAllBooking()
     }
 
+    val booking = viewModel.booking.collectAsState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -87,14 +87,13 @@ fun CarsScreen(navController: NavHostController, context: Context) {
         topBar = {
             TopAppBar(
                 title = {
-                    Spacer(modifier = Modifier.width(20.dp))
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                        text = "Добавленные машины", fontWeight = FontWeight.Medium,
-                        color = Color.Black,
-
-                        )
+                        textAlign = TextAlign.Start,
+                        text = "Заказы",
+                        fontWeight = FontWeight.Medium,
+                        color = Color.Black
+                    )
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigate(Screen.ProfileScreen.route) }) {
@@ -105,14 +104,6 @@ fun CarsScreen(navController: NavHostController, context: Context) {
                     }
                 },
                 actions = {
-                    IconButton(onClick = {
-                        navController.navigate(Screen.AddCarScreen.route)
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "Add"
-                        )
-                    }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     navigationIconContentColor = Color.Black,
@@ -127,34 +118,71 @@ fun CarsScreen(navController: NavHostController, context: Context) {
                 .padding(values)
                 .fillMaxSize()
         ) {
-//            val car = listOf(
-//                listOf("Мерседес 1", "ооо12оо"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//            )
+            LazyColumn {
+                itemsIndexed(booking.value) { index, item ->
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 15.dp, end = 15.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .clickable {
 
-            LazyColumn(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 15.dp)
-            ) {
-                itemsIndexed(
-                    cars.value
-                ) { index, item ->
-                    CarItem(item, viewModel)
-                    if (index != (cars.value.size - 1)) {
+                            }
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.Start,
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(start = 15.dp, end = 15.dp)
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.logo),
+                                contentDescription = "",
+                                modifier = Modifier.size(42.dp)
+                            )
+                            Column {
+                                Text(
+                                    text = item.parkingName,
+                                    color = Color.Black,
+                                    fontSize = 15.sp,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .padding(start = 15.dp)
+                                )
+                                Text(
+                                    text = "Время заезда: " + item.checkIn,
+                                    color = Color.Gray,
+                                    fontSize = 12.sp,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .padding(start = 15.dp, top = 5.dp)
+                                )
+                                Text(
+                                    text = "Время выезда: " + item.exit,
+                                    color = Color.Gray,
+                                    fontSize = 12.sp,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .padding(start = 15.dp, top = 5.dp)
+                                )
+                            }
+                        }
+                        IconButton(
+                            onClick = {
+                                showExitDialog.value = !showExitDialog.value
+                                selectedBookingId.value = item.id
+                            },
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = "Delete",
+                            )
+                        }
+                    }
+                    if (index != (booking.value.size - 1)) {
                         Divider(
                             modifier = Modifier
                                 .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 15.dp),
@@ -166,98 +194,6 @@ fun CarsScreen(navController: NavHostController, context: Context) {
             }
         }
 
-
-//        ) {
-//            Column(
-//                modifier = Modifier
-//                    .padding(horizontal = 16.dp)
-//                    .verticalScroll(scrollState)
-//            ) {
-//                TextField(
-//                    hint = "Предмет",
-//                    text = textSubject,
-//                    keyboardOptions = KeyboardOptions(),
-//                    keyboardActions = KeyboardActions(),
-//                    horizontalPadding = 0.dp
-//                )
-//
-//                Spacer(modifier = Modifier.padding(8.dp))
-//
-//                Row(verticalAlignment = Alignment.CenterVertically) {
-//                    Checkbox(
-//                        checked = isCheckBoxOpenDate,
-//                        onCheckedChange = { newValue -> isCheckBoxOpenDate = newValue },
-//                        colors = CheckboxDefaults.colors(
-//                            checkedColor = Green,
-//                            uncheckedColor = Gray
-//                        )
-//                    )
-//                    Text(text = "Открытие по времени", color = Color.White, fontSize = 16.sp)
-//                }
-
-//            }
-//        }
-    }
-}
-
-@Composable
-fun CarItem(car: Car, viewModel: ProfileViewModel) {
-    val showExitDialog = rememberSaveable { mutableStateOf(false) }
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 15.dp, end = 15.dp)
-            .clip(RoundedCornerShape(10.dp))
-            .height(50.dp)
-            .clickable {
-
-            }
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 15.dp, end = 15.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.logo),
-                contentDescription = "",
-                modifier = Modifier
-                    .size(42.dp)
-            )
-            Column {
-                Text(
-                    text = "Машина: " + car.model,
-                    color = Color.Black,
-                    fontSize = 15.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .padding(start = 15.dp)
-                )
-                Text(
-                    text = "Номер машины: " + car.number,
-                    color = Color.Gray,
-                    fontSize = 12.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .padding(start = 15.dp, top = 5.dp)
-                )
-            }
-        }
-        IconButton(
-            onClick = {
-                showExitDialog.value = !showExitDialog.value
-            },
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Delete,
-                contentDescription = "Delete",
-            )
-        }
-
         if (showExitDialog.value) {
             AlertDialog(
                 onDismissRequest = { showExitDialog.value = false },
@@ -266,7 +202,9 @@ fun CarItem(car: Car, viewModel: ProfileViewModel) {
                 confirmButton = {
                     Button(
                         onClick = {
-                            viewModel.deleteCar(car.number)
+                            Log.i("BOOKINGID: ", selectedBookingId.value.toString())
+                            viewModel.deleteBooking(selectedBookingId.value)
+                            showExitDialog.value = !showExitDialog.value
                         },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.Transparent,
@@ -296,10 +234,4 @@ fun CarItem(car: Car, viewModel: ProfileViewModel) {
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun CarsScreenPreview() {
-    CarsScreen(navController = rememberNavController(), context = LocalContext.current)
 }

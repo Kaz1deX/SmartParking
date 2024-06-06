@@ -1,5 +1,7 @@
 package com.example.smartparking.data.api
 
+import com.example.smartparking.data.model.Booking
+import com.example.smartparking.data.model.BookingReceive
 import com.example.smartparking.data.model.Car
 import com.example.smartparking.data.model.CarReceive
 import com.example.smartparking.data.model.LoginResponse
@@ -24,7 +26,7 @@ import io.ktor.http.parameters
 
 class ApiServiceImpl(
     private val client: HttpClient
-): ApiService {
+) : ApiService {
     override suspend fun register(userRegister: UserRegister): LoginResponse {
         try {
             val response: HttpResponse = client.post {
@@ -127,6 +129,88 @@ class ApiServiceImpl(
                 return false
                 throw Exception("Request failed with status: ${response.status.value}")
             }
+
+        } catch (ex: RedirectResponseException) {
+            throw Exception("Redirect error: ${ex.response.status.description}")
+        } catch (ex: ClientRequestException) {
+            throw Exception("Client request error: ${ex.response.status.description}")
+        } catch (ex: ServerResponseException) {
+            throw Exception("Server response error: ${ex.response.status.description}")
+        }
+    }
+
+    override suspend fun getBooking(login: String): List<Booking> {
+        try {
+            val response: HttpResponse = client.get {
+                url(ApiRoutes.BASE_URL + ApiRoutes.BOOKING)
+                parameter("login", login)
+            }
+            return response.body()
+
+        } catch (ex: RedirectResponseException) {
+            throw Exception("Redirect error: ${ex.response.status.description}")
+        } catch (ex: ClientRequestException) {
+            throw Exception("Client request error: ${ex.response.status.description}")
+        } catch (ex: ServerResponseException) {
+            throw Exception("Server response error: ${ex.response.status.description}")
+        }
+    }
+
+    override suspend fun addBooking(booking: BookingReceive): Boolean {
+        try {
+            val response: HttpResponse = client.post {
+                url(ApiRoutes.BASE_URL + ApiRoutes.ADD_BOOKING)
+                setBody(booking)
+            }
+
+            if (response.status.isSuccess()) return true
+            else {
+                return false
+                throw Exception("Request failed with status: ${response.status.value}")
+            }
+
+        } catch (ex: RedirectResponseException) {
+            throw Exception("Redirect error: ${ex.response.status.description}")
+        } catch (ex: ClientRequestException) {
+            throw Exception("Client request error: ${ex.response.status.description}")
+        } catch (ex: ServerResponseException) {
+            throw Exception("Server response error: ${ex.response.status.description}")
+        }
+    }
+
+    override suspend fun deleteBooking(bookingId: String): Boolean {
+        try {
+            val response: HttpResponse = client.delete {
+                url(ApiRoutes.BASE_URL + ApiRoutes.BOOKING)
+                parameter("bookingId", bookingId)
+            }
+
+            if (response.status.isSuccess()) return true
+            else {
+                return false
+                throw Exception("Request failed with status: ${response.status.value}")
+            }
+
+        } catch (ex: RedirectResponseException) {
+            throw Exception("Redirect error: ${ex.response.status.description}")
+        } catch (ex: ClientRequestException) {
+            throw Exception("Client request error: ${ex.response.status.description}")
+        } catch (ex: ServerResponseException) {
+            throw Exception("Server response error: ${ex.response.status.description}")
+        }
+    }
+
+    override suspend fun getAvailableSlots(
+        parkingId: String,
+        date: String
+    ): List<Pair<String, String>> {
+        try {
+            val response: HttpResponse = client.get {
+                url(ApiRoutes.BASE_URL + ApiRoutes.AVAILABLE_SLOTS)
+                parameter("parkingId", parkingId)
+                parameter("date", date)
+            }
+            return response.body()
 
         } catch (ex: RedirectResponseException) {
             throw Exception("Redirect error: ${ex.response.status.description}")

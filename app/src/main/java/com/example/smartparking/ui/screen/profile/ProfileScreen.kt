@@ -60,7 +60,6 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
 
     LaunchedEffect(key1 = Unit) {
         viewModel.getCars(onResult = {})
-        viewModel.addCar("123", "Tesla")
     }
 
     Column(
@@ -267,6 +266,9 @@ fun ProfileItem(name: String, index: Int, navController: NavHostController) {
             .clickable {
                 if (index == 0) {
                     navController.navigate(Screen.CarsScreen.route)
+                }
+                if (index == 2) {
+                    navController.navigate(Screen.BookingScreen.route)
                 }
             }
     ) {

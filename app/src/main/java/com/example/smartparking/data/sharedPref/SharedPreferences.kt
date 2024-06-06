@@ -3,7 +3,7 @@ package com.example.smartparking.data.sharedPref
 import android.content.Context
 
 class SharedPreferences(context: Context) {
-    private val sharedPref = context.getSharedPreferences(SharedPrefNames.USER_NAME, Context.MODE_PRIVATE)
+    private val sharedPref = context.getSharedPreferences(SharedPrefNames.USER_INFO, Context.MODE_PRIVATE)
 
 
     fun saveString(keyName: String, value: String) {

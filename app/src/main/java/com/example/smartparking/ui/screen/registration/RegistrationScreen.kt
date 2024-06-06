@@ -1,4 +1,4 @@
-package com.example.smartparking.ui.screen.registration
+package com.example.smartparking.park.ui.screen.registration
 
 import android.app.Activity
 import android.content.Context
@@ -48,6 +48,7 @@ import com.example.smartparking.R
 import com.example.smartparking.navigation.Screen
 import com.example.smartparking.ui.components.TextField
 import com.example.smartparking.ui.components.rememberImeState
+import com.example.smartparking.ui.screen.registration.RegistrationViewModel
 
 @Composable
 fun RegistrationScreen(navController: NavHostController, context: Context) {

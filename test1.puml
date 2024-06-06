@@ -1,0 +1,175 @@
+@startuml
+class com.example.smartparking.data.room.entity.BookingEntity {
+}
+class com.example.smartparking.navigation.NavigationRouter {
++ MutableState<Screen> currentScreen
+}
+
+class com.example.smartparking.data.model.Parking {
+}
+class com.example.smartparking.ui.screen.registration.RegistrationViewModel {
+}
+class com.example.smartparking.ui.screen.registration.RegistrationViewModelFactory {
+}
+class com.example.smartparking.data.api.ApiService$Companion {
++ ApiService create()
+}
+
+interface com.example.smartparking.data.api.ApiService {
++ LoginResponse register(UserRegister)
++ LoginResponse auth(UserLogin)
++ List<Car> getCars(String)
++ Boolean addCar(CarReceive)
++ List<Parking> getParking()
++ Boolean deleteCar(String,String)
+}
+
+class com.example.smartparking.data.model.Favourite {
+}
+class com.example.smartparking.data.sharedPref.SharedPrefNames {
++  USER_INFO
++  LOGIN
++  USER_NAME
++  TOKEN
++  EMAIL
+}
+
+class com.example.smartparking.ui.MainActivity {
++ void onCreate(Bundle?)
+}
+
+class com.example.smartparking.data.api.ApiRoutes {
++  BASE_URL
++  AUTHENTICATE
++  REGISTRATION
++  CARS
++  ADD_CAR
++  DELETE_CAR
++  PARKING
+}
+
+class com.example.smartparking.ui.screen.map.MapViewModel {
+}
+class com.example.smartparking.ui.screen.map.MapViewModelFactory {
+}
+class com.example.smartparking.data.sharedPref.SharedPreferences {
+-  sharedPref
++ void saveString(String,String)
++ void saveInt(String,Int)
++ void getValueString(String)
++ void getValueInt(String)
++ void clearSharedPreference()
+}
+
+
+class com.example.smartparking.data.model.Car {
+}
+class com.example.smartparking.data.room.database.MainDatabase$Companion {
++ MainDatabase createDataBase(Context)
+}
+
+abstract class com.example.smartparking.data.room.database.MainDatabase {
++ CarDao carDao()
++ FavouriteDao favouriteDao()
+}
+
+class com.example.smartparking.ui.screen.profile.ProfileViewModel {
+}
+class com.example.smartparking.ui.screen.profile.ProfileViewModelFactory {
+}
+class com.example.smartparking.ui.screen.favourites.FavouriteViewModel {
+}
+class com.example.smartparking.ui.screen.favourites.FavouriteViewModelFactory {
+}
+class com.example.smartparking.ui.screen.cars.null {
+}
+class com.example.smartparking.data.model.Booking {
+}
+class com.example.smartparking.ui.screen.login.null {
+}
+class com.example.smartparking.App {
++  mainDatabase
++  repository
+}
+
+class com.example.smartparking.data.repositories.MainRepository {
+}
+class com.example.smartparking.data.api.ApiServiceImpl {
+}
+class com.example.smartparking.data.model.UserRegister {
+}
+class com.example.smartparking.data.room.entity.FavouriteEntity {
+}
+class com.example.smartparking.data.model.LoginResponse {
+}
+interface com.example.smartparking.data.room.dao.CarDao {
++ List<CarEntity> getAllCars()
++ Int getCarsCount()
++ void insertCar(CarEntity)
++ void deleteCar(CarEntity)
++ void deleteCarByNumber(String)
++ void deleteCarsTable()
+}
+
+interface com.example.smartparking.data.room.dao.FavouriteDao {
++ List<FavouriteEntity> getAllFavourites()
++ Int getFavouritesCount()
++ void insertFavourite(FavouriteEntity)
++ void deleteFavourite(FavouriteEntity)
++ void deleteFavouriteTable()
+}
+
+class com.example.smartparking.data.model.UserLogin {
+}
+class com.example.smartparking.data.model.CarReceive {
+}
+class com.example.smartparking.ui.screen.login.LoginViewModel {
+}
+class com.example.smartparking.ui.screen.login.LoginViewModelFactory {
+}
+class com.example.smartparking.data.room.entity.CarEntity {
+}
+class com.example.smartparking.navigation.Screen$ProfileScreen {
+}
+class com.example.smartparking.navigation.Screen$MapScreen {
+}
+class com.example.smartparking.navigation.Screen$FavouritesScreen {
+}
+class com.example.smartparking.navigation.Screen$SettingsScreen {
+}
+class com.example.smartparking.navigation.Screen$LoginScreen {
+}
+class com.example.smartparking.navigation.Screen$RegistrationScreen {
+}
+class com.example.smartparking.navigation.Screen$CarsScreen {
+}
+class com.example.smartparking.navigation.Screen$AddCarScreen {
+}
+class com.example.smartparking.navigation.Screen {
+}
+
+
+com.example.smartparking.data.api.ApiService +.. com.example.smartparking.data.api.ApiService$Companion
+androidx.activity.ComponentActivity <|-- com.example.smartparking.ui.MainActivity
+com.example.smartparking.data.room.database.MainDatabase +.. com.example.smartparking.data.room.database.MainDatabase$Companion
+androidx.room.RoomDatabase <|-- com.example.smartparking.data.room.database.MainDatabase
+com.example.smartparking.ui.screen.cars.OnBackPressedCallback <|-- com.example.smartparking.ui.screen.cars.null
+com.example.smartparking.ui.screen.login.OnBackPressedCallback <|-- com.example.smartparking.ui.screen.login.null
+android.app.Application <|-- com.example.smartparking.App
+com.example.smartparking.navigation.Screen +.. com.example.smartparking.navigation.Screen$ProfileScreen
+com.example.smartparking.navigation.Screen <|-- com.example.smartparking.navigation.Screen$ProfileScreen
+com.example.smartparking.navigation.Screen +.. com.example.smartparking.navigation.Screen$MapScreen
+com.example.smartparking.navigation.Screen <|-- com.example.smartparking.navigation.Screen$MapScreen
+com.example.smartparking.navigation.Screen +.. com.example.smartparking.navigation.Screen$FavouritesScreen
+com.example.smartparking.navigation.Screen <|-- com.example.smartparking.navigation.Screen$FavouritesScreen
+com.example.smartparking.navigation.Screen +.. com.example.smartparking.navigation.Screen$SettingsScreen
+com.example.smartparking.navigation.Screen <|-- com.example.smartparking.navigation.Screen$SettingsScreen
+com.example.smartparking.navigation.Screen +.. com.example.smartparking.navigation.Screen$LoginScreen
+com.example.smartparking.navigation.Screen <|-- com.example.smartparking.navigation.Screen$LoginScreen
+com.example.smartparking.navigation.Screen +.. com.example.smartparking.navigation.Screen$RegistrationScreen
+com.example.smartparking.navigation.Screen <|-- com.example.smartparking.navigation.Screen$RegistrationScreen
+com.example.smartparking.navigation.Screen +.. com.example.smartparking.navigation.Screen$CarsScreen
+com.example.smartparking.navigation.Screen <|-- com.example.smartparking.navigation.Screen$CarsScreen
+com.example.smartparking.navigation.Screen +.. com.example.smartparking.navigation.Screen$AddCarScreen
+com.example.smartparking.navigation.Screen <|-- com.example.smartparking.navigation.Screen$AddCarScreen
+@enduml

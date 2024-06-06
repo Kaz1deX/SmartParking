@@ -1,0 +1,100 @@
+@startuml
+class com.example.smartparking.data.model.Booking {
+}
+class com.example.smartparking.data.room.entity.BookingEntity {
+}
+class com.example.smartparking.data.model.Parking {
+}
+class com.example.smartparking.data.repositories.MainRepository {
+}
+class com.example.smartparking.data.api.ApiService$Companion {
++ ApiService create()
+}
+
+interface com.example.smartparking.data.api.ApiService {
++ LoginResponse register(UserRegister)
++ LoginResponse auth(UserLogin)
++ List<Car> getCars(String)
++ Boolean addCar(CarReceive)
++ List<Parking> getParking()
++ Boolean deleteCar(String,String)
+}
+
+class com.example.smartparking.data.api.ApiServiceImpl {
+}
+class com.example.smartparking.data.model.UserRegister {
+}
+class com.example.smartparking.data.room.entity.FavouriteEntity {
+}
+class com.example.smartparking.data.model.Favourite {
+}
+class com.example.smartparking.data.sharedPref.SharedPrefNames {
++  USER_INFO
++  LOGIN
++  USER_NAME
++  TOKEN
++  EMAIL
+}
+
+class com.example.smartparking.data.model.LoginResponse {
+}
+class com.example.smartparking.data.api.ApiRoutes {
++  BASE_URL
++  AUTHENTICATE
++  REGISTRATION
++  CARS
++  ADD_CAR
++  DELETE_CAR
++  PARKING
+}
+
+interface com.example.smartparking.data.room.dao.CarDao {
++ List<CarEntity> getAllCars()
++ Int getCarsCount()
++ void insertCar(CarEntity)
++ void deleteCar(CarEntity)
++ void deleteCarByNumber(String)
++ void deleteCarsTable()
+}
+
+class com.example.smartparking.data.model.UserLogin {
+}
+interface com.example.smartparking.data.room.dao.FavouriteDao {
++ List<FavouriteEntity> getAllFavourites()
++ Int getFavouritesCount()
++ void insertFavourite(FavouriteEntity)
++ void deleteFavourite(FavouriteEntity)
++ void deleteFavouriteTable()
+}
+
+class com.example.smartparking.data.model.CarReceive {
+}
+class com.example.smartparking.data.sharedPref.SharedPreferences {
+-  sharedPref
++ void saveString(String,String)
++ void saveInt(String,Int)
++ void getValueString(String)
++ void getValueInt(String)
++ void clearSharedPreference()
+}
+
+
+class com.example.smartparking.data.model.Car {
+}
+class com.example.smartparking.data.room.database.MainDatabase$Companion {
++ MainDatabase createDataBase(Context)
+}
+
+abstract class com.example.smartparking.data.room.database.MainDatabase {
++ CarDao carDao()
++ FavouriteDao favouriteDao()
+}
+
+class com.example.smartparking.data.room.entity.CarEntity {
+}
+
+
+com.example.smartparking.data.api.ApiService +.. com.example.smartparking.data.api.ApiService$Companion
+com.example.smartparking.data.room.database.MainDatabase +.. com.example.smartparking.data.room.database.MainDatabase$Companion
+androidx.room.RoomDatabase <|-- com.example.smartparking.data.room.database.MainDatabase
+@enduml

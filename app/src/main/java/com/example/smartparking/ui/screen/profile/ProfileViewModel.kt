@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.smartparking.data.model.Booking
+import com.example.smartparking.data.model.BookingReceive
 import com.example.smartparking.data.model.Car
 import com.example.smartparking.data.model.CarReceive
 import com.example.smartparking.data.repositories.MainRepository
@@ -24,6 +26,12 @@ class ProfileViewModel(
 
     private var _cars: MutableStateFlow<List<Car>> = MutableStateFlow(emptyList())
     val cars = _cars.asStateFlow()
+
+    private var _booking: MutableStateFlow<List<Booking>> = MutableStateFlow(emptyList())
+    val booking = _booking.asStateFlow()
+
+    private var _availableSlots: MutableStateFlow<List<Pair<String, String>>> = MutableStateFlow(emptyList())
+    val availableSlots = _availableSlots.asStateFlow()
 
     fun checkToken(): Boolean {
         return sharedPreferences.getValueString(SharedPrefNames.TOKEN) != null
@@ -58,6 +66,7 @@ class ProfileViewModel(
             val login = sharedPreferences.getValueString(SharedPrefNames.LOGIN)
             val car = CarReceive(login!!, number, model)
             repository.addCar(car)
+            getCars {}
         }
     }
 
@@ -65,6 +74,43 @@ class ProfileViewModel(
         viewModelScope.launch {
             val login = sharedPreferences.getValueString(SharedPrefNames.LOGIN)
             repository.deleteCar(login!!, number)
+            getCars {}
+        }
+    }
+
+    fun getAllBooking() {
+        viewModelScope.launch {
+            val booking = repository.getAllBooking(login = sharedPreferences.getValueString(SharedPrefNames.LOGIN)!!)
+            _booking.value = booking
+        }
+    }
+
+    fun addBooking(parkingId: String, carNumber: String, checkIn: String, exit: String, amount: Int, parkingName: String) {
+        viewModelScope.launch {
+            val bookingReceive = BookingReceive(
+                userLogin = sharedPreferences.getValueString(SharedPrefNames.LOGIN)!!,
+                parkingId = parkingId,
+                carNumber = carNumber,
+                checkIn = checkIn,
+                exit = exit,
+                amount = amount,
+                parkingName = parkingName
+            )
+            repository.addBooking(bookingReceive)
+        }
+    }
+
+    fun deleteBooking(bookingId: String) {
+        viewModelScope.launch {
+            repository.deleteBooking(bookingId)
+            getAllBooking()
+        }
+    }
+
+    fun getAvailableSlots(parkingId: String, date: String) {
+        viewModelScope.launch {
+            val availableSlots = repository.getAvailableSlots(parkingId, date)
+            _availableSlots.value = availableSlots
         }
     }
 

@@ -12,4 +12,5 @@ sealed class Screen(val route: String, var icon: Int = R.drawable.ic_launcher_fo
     data object CarsScreen: Screen(route = "cars_screen", title = "CarsScreen")
     data object AddCarScreen: Screen(route = "add_car_screen", title = "AddCarScreen")
     data object ChoiceParkingScreen: Screen(route = "choice_parking_screen", title = "ChoiceParkingScreen")
+    data object BookingScreen: Screen(route = "booking_screen", title = "BookingScreen")
 }

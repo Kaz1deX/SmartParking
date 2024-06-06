@@ -8,4 +8,7 @@ object ApiRoutes {
     const val ADD_CAR = "/add-car"
     const val DELETE_CAR = "/delete-car"
     const val PARKING = "/parking"
+    const val BOOKING = "/booking"
+    const val ADD_BOOKING = "/add-booking"
+    const val AVAILABLE_SLOTS = "/available-slots"
 }
