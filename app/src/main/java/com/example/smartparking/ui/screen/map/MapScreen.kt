@@ -53,6 +53,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.smartparking.App
 import com.example.smartparking.R
 import com.example.smartparking.data.model.Parking
+import com.example.smartparking.navigation.Screen
 import com.example.smartparking.ui.screen.cars.CarsScreen
 import com.example.smartparking.ui.theme.Blue
 import com.example.smartparking.ui.theme.DividerGrey
@@ -100,7 +101,7 @@ fun MapScreen(navController: NavHostController, context: Context) {
             itemsIndexed(
                 parkings.value
             ) {index, item ->
-                MapItem(item)
+                MapItem(item, navController)
                 if(index != (parkings.value.size - 1)) {
                     Divider(modifier = Modifier
                         .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 15.dp),
@@ -114,10 +115,9 @@ fun MapScreen(navController: NavHostController, context: Context) {
 }
 
 @Composable
-fun MapItem(parking: Parking) {
+fun MapItem(parking: Parking, navController: NavHostController) {
     val isButtonEnabled = remember { mutableStateOf(false) }
     val buttonColors = if (isButtonEnabled.value) Blue else Black
-
 
     Box(
         modifier = Modifier
@@ -126,7 +126,7 @@ fun MapItem(parking: Parking) {
             .clip(RoundedCornerShape(10.dp))
             .height(50.dp)
             .clickable {
-
+                navController.navigate(Screen.ChoiceParkingScreen.route)
             }
     ) {
         Row(

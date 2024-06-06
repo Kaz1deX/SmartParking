@@ -27,7 +27,8 @@ class MainActivity : ComponentActivity() {
                             Screen.LoginScreen,
                             Screen.RegistrationScreen,
                             Screen.CarsScreen,
-                            Screen.AddCarScreen -> null
+                            Screen.AddCarScreen,
+                            Screen.ChoiceParkingScreen -> null
                             else -> BottomNavigationBar(navController = navController)
                         }
                     }

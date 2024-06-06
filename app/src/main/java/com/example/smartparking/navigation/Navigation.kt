@@ -14,6 +14,7 @@ import com.example.smartparking.ui.screen.cars.CarsScreen
 import com.example.smartparking.ui.screen.favourites.FavouritesScreen
 import com.example.smartparking.ui.screen.login.LoginScreen
 import com.example.smartparking.ui.screen.login.LoginViewModel
+import com.example.smartparking.ui.screen.map.ChoiceParkingScreen
 import com.example.smartparking.ui.screen.map.MapScreen
 import com.example.smartparking.ui.screen.profile.ProfileScreen
 import com.example.smartparking.ui.screen.registration.RegistrationScreen
@@ -73,6 +74,11 @@ fun Navigation(navController: NavHostController, context: Context) {
         composable(route = Screen.AddCarScreen.route) {
             NavigationRouter.currentScreen.value = Screen.AddCarScreen
             AddCarScreen(navController = navController, context = context)
+        }
+
+        composable(route = Screen.ChoiceParkingScreen.route) {
+            NavigationRouter.currentScreen.value = Screen.ChoiceParkingScreen
+            ChoiceParkingScreen(navController = navController, context = context)
         }
     }
 }
