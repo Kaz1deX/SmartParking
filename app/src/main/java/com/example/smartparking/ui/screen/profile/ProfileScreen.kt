@@ -57,7 +57,6 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
         )
     )
     val cars = viewModel.cars.collectAsState()
-    val availableSlots = viewModel.availableSlots.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
         viewModel.getCars(onResult = {})
@@ -267,6 +266,9 @@ fun ProfileItem(name: String, index: Int, navController: NavHostController) {
             .clickable {
                 if (index == 0) {
                     navController.navigate(Screen.CarsScreen.route)
+                }
+                if (index == 2) {
+                    navController.navigate(Screen.BookingScreen.route)
                 }
             }
     ) {

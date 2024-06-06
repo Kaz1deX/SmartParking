@@ -26,7 +26,10 @@ class MainActivity : ComponentActivity() {
                         when (NavigationRouter.currentScreen.value) {
                             Screen.LoginScreen,
                             Screen.RegistrationScreen -> null
-                            else -> BottomNavigationBar(navController = navController)
+
+                            else -> {
+                                BottomNavigationBar(navController = navController)
+                            }
                         }
                     }
                 ) { contentPadding ->

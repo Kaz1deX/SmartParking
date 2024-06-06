@@ -66,6 +66,7 @@ class ProfileViewModel(
             val login = sharedPreferences.getValueString(SharedPrefNames.LOGIN)
             val car = CarReceive(login!!, number, model)
             repository.addCar(car)
+            getCars {}
         }
     }
 
@@ -84,7 +85,7 @@ class ProfileViewModel(
         }
     }
 
-    fun addBooking(parkingId: String, carNumber: String, checkIn: String, exit: String, amount: Int) {
+    fun addBooking(parkingId: String, carNumber: String, checkIn: String, exit: String, amount: Int, parkingName: String) {
         viewModelScope.launch {
             val bookingReceive = BookingReceive(
                 userLogin = sharedPreferences.getValueString(SharedPrefNames.LOGIN)!!,
@@ -92,7 +93,8 @@ class ProfileViewModel(
                 carNumber = carNumber,
                 checkIn = checkIn,
                 exit = exit,
-                amount = amount
+                amount = amount,
+                parkingName = parkingName
             )
             repository.addBooking(bookingReceive)
         }
@@ -101,6 +103,7 @@ class ProfileViewModel(
     fun deleteBooking(bookingId: String) {
         viewModelScope.launch {
             repository.deleteBooking(bookingId)
+            getAllBooking()
         }
     }
 

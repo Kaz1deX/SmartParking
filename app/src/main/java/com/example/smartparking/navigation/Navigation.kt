@@ -17,6 +17,7 @@ import com.example.smartparking.ui.screen.login.LoginViewModel
 import com.example.smartparking.ui.screen.map.MapScreen
 import com.example.smartparking.ui.screen.profile.ProfileScreen
 import com.example.smartparking.park.ui.screen.registration.RegistrationScreen
+import com.example.smartparking.ui.screen.profile.BookingScreen
 import com.example.smartparking.ui.screen.settings.SettingsScreen
 
 @Composable
@@ -73,6 +74,11 @@ fun Navigation(navController: NavHostController, context: Context) {
         composable(route = Screen.AddCarScreen.route) {
             NavigationRouter.currentScreen.value = Screen.AddCarScreen
             AddCarScreen(navController = navController, context = context)
+        }
+
+        composable(route = Screen.BookingScreen.route) {
+            NavigationRouter.currentScreen.value = Screen.BookingScreen
+            BookingScreen(navController = navController, context = context)
         }
     }
 }
