@@ -20,9 +20,7 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
-import io.ktor.http.HttpStatusCode
 import io.ktor.http.isSuccess
-import io.ktor.http.parameters
 
 class ApiServiceImpl(
     private val client: HttpClient
@@ -103,7 +101,24 @@ class ApiServiceImpl(
     override suspend fun getParking(): List<Parking> {
         try {
             val response: HttpResponse = client.get {
+                url(ApiRoutes.BASE_URL + ApiRoutes.ALL_PARKING)
+            }
+            return response.body()
+
+        } catch (ex: RedirectResponseException) {
+            throw Exception("Redirect error: ${ex.response.status.description}")
+        } catch (ex: ClientRequestException) {
+            throw Exception("Client request error: ${ex.response.status.description}")
+        } catch (ex: ServerResponseException) {
+            throw Exception("Server response error: ${ex.response.status.description}")
+        }
+    }
+
+    override suspend fun getParkingById(parkingId: String): Parking {
+        try {
+            val response: HttpResponse = client.get {
                 url(ApiRoutes.BASE_URL + ApiRoutes.PARKING)
+                parameter("parkingId", parkingId)
             }
             return response.body()
 

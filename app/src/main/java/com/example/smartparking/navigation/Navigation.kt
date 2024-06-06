@@ -6,8 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.smartparking.App
 import com.example.smartparking.ui.screen.cars.AddCarScreen
 import com.example.smartparking.ui.screen.cars.CarsScreen
@@ -20,6 +22,7 @@ import com.example.smartparking.ui.screen.profile.ProfileScreen
 import com.example.smartparking.park.ui.screen.registration.RegistrationScreen
 import com.example.smartparking.ui.screen.profile.BookingScreen
 import com.example.smartparking.ui.screen.settings.SettingsScreen
+import com.example.smartparking.util.Constants
 
 @Composable
 fun Navigation(navController: NavHostController, context: Context) {
@@ -39,6 +42,7 @@ fun Navigation(navController: NavHostController, context: Context) {
 
     NavHost(navController = navController, startDestination = startDestination) {
         composable(route = Screen.ProfileScreen.route) {
+            NavigationRouter.currentScreen.value = Screen.ProfileScreen
             ProfileScreen(navController = navController, context = context)
         }
 
@@ -77,7 +81,10 @@ fun Navigation(navController: NavHostController, context: Context) {
             AddCarScreen(navController = navController, context = context)
         }
 
-        composable(route = Screen.ChoiceParkingScreen.route) {
+        composable(route = Screen.ChoiceParkingScreen.route,
+            arguments = listOf(navArgument(Constants.KEY_PARKING_ID) {
+                type = NavType.StringType
+            })) {
             NavigationRouter.currentScreen.value = Screen.ChoiceParkingScreen
             ChoiceParkingScreen(navController = navController, context = context)
         }

@@ -1,6 +1,7 @@
 package com.example.smartparking.navigation
 
 import com.example.smartparking.R
+import com.example.smartparking.util.Constants.KEY_PARKING_ID
 
 sealed class Screen(val route: String, var icon: Int = R.drawable.ic_launcher_foreground, var title: String) {
     data object ProfileScreen: Screen(route = "profile_screen", icon = R.drawable.profile_icon, title = "Профиль")
@@ -11,6 +12,10 @@ sealed class Screen(val route: String, var icon: Int = R.drawable.ic_launcher_fo
     data object RegistrationScreen: Screen(route = "registration_screen", title = "RegistrationScreen")
     data object CarsScreen: Screen(route = "cars_screen", title = "CarsScreen")
     data object AddCarScreen: Screen(route = "add_car_screen", title = "AddCarScreen")
-    data object ChoiceParkingScreen: Screen(route = "choice_parking_screen", title = "ChoiceParkingScreen")
+    data object ChoiceParkingScreen: Screen(route = "choice_parking_screen/{$KEY_PARKING_ID}", title = "ChoiceParkingScreen") {
+        fun passParkingId(parkingId: String): String {
+            return "choice_parking_screen/$parkingId"
+        }
+    }
     data object BookingScreen: Screen(route = "booking_screen", title = "BookingScreen")
 }

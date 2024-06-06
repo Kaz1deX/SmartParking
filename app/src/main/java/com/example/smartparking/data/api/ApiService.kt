@@ -35,6 +35,8 @@ interface ApiService {
 
     suspend fun getParking(): List<Parking>
 
+    suspend fun getParkingById(parkingId: String): Parking
+
     suspend fun deleteCar(login: String, number: String): Boolean
 
     suspend fun getBooking(login: String): List<Booking>
