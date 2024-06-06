@@ -2,23 +2,37 @@ package com.example.smartparking.ui.screen.map
 
 import android.app.Activity
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Chip
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,8 +50,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.smartparking.App
 import com.example.smartparking.R
+import com.example.smartparking.ui.theme.Blue
 import com.example.smartparking.ui.theme.DividerGrey
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
 
@@ -52,6 +68,20 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
         )
     )
 
+    val times = listOf(
+        "09:00-10:00",
+        "10:00-11:00",
+        "11:00-12:00",
+        "12:00-13:00",
+        "13:00-14:00",
+        "14:00-15:00",
+        "15:00-16:00",
+        "16:00-17:00",
+        "17:00-18:00",
+        "18:00-19:00",
+        "20:00-21:00"
+    )
+
     Column (
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -63,7 +93,7 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .height(200.dp)
+                .height(150.dp)
         )
         Spacer(
             modifier = Modifier
@@ -75,10 +105,6 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
             color = Color.Black,
             fontSize = 18.sp,
             textAlign = TextAlign.Center
-        )
-        Spacer(
-            modifier = Modifier
-                .padding(top = 40.dp)
         )
 
         Column (
@@ -191,13 +217,22 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
             )
             Divider(
                 modifier = Modifier
-                    .padding(start = 30.dp, end = 30.dp, top = 25.dp, bottom = 25.dp),
+                    .padding(start = 30.dp, end = 30.dp, top = 25.dp, bottom = 10.dp),
                 thickness = 1.dp,
                 color = DividerGrey
             )
         }
+
+        FlowRow(
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 15.dp)
+        ) {
+            times.forEach {
+                ActionChips(item = it)
+            }
+        }
+
         Box(
-            modifier = Modifier.padding(start = 24.dp, end = 24.dp, bottom = 24.dp),
+            modifier = Modifier.padding(start = 22.dp, end = 22.dp, bottom = 24.dp),
             contentAlignment = Alignment.CenterStart
         ) {
             Button(
@@ -220,6 +255,34 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
             }
         }
     }
+}
+
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
+@Composable
+fun ActionChips(item: String) {
+//    Chip(
+//        modifier = Modifier
+//            .padding(8.dp),
+//        onClick = {
+//
+//        }
+//    ) {
+//        Text(text = item)
+//    }
+    var isSelectedChip by remember { mutableStateOf(false) }
+    FilterChip(
+        selected = isSelectedChip,
+        modifier = Modifier
+            .height(60.dp)
+            .padding(5.dp),
+        onClick = {
+            isSelectedChip = !isSelectedChip
+        },
+        label = {
+            Text(item)
+        },
+        colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Blue, selectedLabelColor = Color.White)
+    )
 }
 
 @Preview
