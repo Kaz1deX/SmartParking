@@ -9,6 +9,7 @@ import com.example.smartparking.data.model.LoginResponse
 import com.example.smartparking.data.model.Parking
 import com.example.smartparking.data.model.UserLogin
 import com.example.smartparking.data.model.UserRegister
+import com.example.smartparking.data.model.UserResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.HttpTimeout
@@ -28,6 +29,8 @@ interface ApiService {
     suspend fun register(userRegister: UserRegister): LoginResponse
 
     suspend fun auth(userLogin: UserLogin): LoginResponse
+
+    suspend fun getUserBuLogin(login: String): UserResponse
 
     suspend fun getCars(login: String): List<Car>
 

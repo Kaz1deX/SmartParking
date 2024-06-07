@@ -64,6 +64,7 @@ fun MapScreen(navController: NavHostController, context: Context) {
             repository
         )
     )
+
     val parkings = viewModel.parking.collectAsState()
     val parkingOne = viewModel.parkingOne.collectAsState()
 
@@ -160,6 +161,7 @@ fun MapItem(parking: Parking, navController: NavHostController) {
         IconButton(
             onClick = {
                 isButtonEnabled.value = !isButtonEnabled.value
+
             },
             modifier = Modifier
                 .align(Alignment.CenterEnd)

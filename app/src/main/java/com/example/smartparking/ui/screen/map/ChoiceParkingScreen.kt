@@ -13,14 +13,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
@@ -44,9 +43,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -65,15 +62,22 @@ import coil.request.ImageRequest
 import com.example.smartparking.App
 import com.example.smartparking.R
 import com.example.smartparking.navigation.Screen
+import com.example.smartparking.ui.screen.profile.ProfileViewModel
+import com.example.smartparking.ui.theme.Black18
 import com.example.smartparking.ui.theme.Blue
 import com.example.smartparking.ui.theme.DividerGrey
+import com.example.smartparking.ui.theme.Whiteff
 import com.example.smartparking.util.Constants
 import com.example.smartparking.util.formatDate
+import com.maxkeppeker.sheets.core.models.base.IconSource
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
 import com.maxkeppeler.sheets.calendar.models.CalendarSelection
 import com.maxkeppeler.sheets.calendar.models.CalendarStyle
+import com.maxkeppeler.sheets.list.ListDialog
+import com.maxkeppeler.sheets.list.models.ListOption
+import com.maxkeppeler.sheets.list.models.ListSelection
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -84,42 +88,69 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
         route?.substringAfterLast("/") ?: ""
     }
 
-
     val activity = LocalContext.current as Activity
     val application = activity.application as App
     val repository = application.repository
 
-    val viewModel: MapViewModel = viewModel(
+    val mapViewModel: MapViewModel = viewModel(
         factory = MapViewModel.MapViewModelFactory(
             application,
             repository
         )
     )
 
-    val parking = viewModel.parkingOne.collectAsState()
-    val screenState = rememberSaveable { mutableStateOf(false) }
-    val textOpenDate = rememberSaveable { mutableStateOf("Выбрать дату бронирования") }
+    val profileViewModel: ProfileViewModel = viewModel(
+        factory = ProfileViewModel.ProfileViewModelFactory(
+            application,
+            repository
+        )
+    )
+
+    val parking = mapViewModel.parkingOne.collectAsState()
+    val availableSlots = mapViewModel.availableSlots.collectAsState()
+    val cars = profileViewModel.cars.collectAsState()
+    val amount = mapViewModel.amount.collectAsState()
+
+    val stateParkingInfo = rememberSaveable { mutableStateOf(false) }
+    val stateAvailablePlaces = rememberSaveable { mutableStateOf(false) }
+    val showExitDialog = rememberSaveable { mutableStateOf(false) }
+    val showMinimalDialog = rememberSaveable { mutableStateOf(false) }
+
+    val textDateSelected = rememberSaveable { mutableStateOf("Выбрать дату бронирования") }
+    val textCarSelected = rememberSaveable { mutableStateOf("Выбрать автомобиль") }
+
     val calendarStateOpen = rememberSheetState()
+    val listCarStateOpen = rememberSheetState()
+
     val imageLoader = ImageLoader.Builder(context).components { add(SvgDecoder.Factory()) }.build()
 
     LaunchedEffect(key1 = Unit) {
-        viewModel.getParking()
-        viewModel.getParkingById(parkingId, onResult = { screenState.value = !screenState.value })
+        profileViewModel.getCars(onResult = {})
+        mapViewModel.getParkingById(
+            parkingId,
+            onResult = { stateParkingInfo.value = !stateParkingInfo.value })
     }
 
-    val times = listOf(
-        "09:00-10:00",
-        "10:00-11:00",
-        "11:00-12:00",
-        "12:00-13:00",
-        "13:00-14:00",
-        "14:00-15:00",
-        "15:00-16:00",
-        "16:00-17:00",
-        "17:00-18:00",
-        "18:00-19:00",
-        "20:00-21:00"
-    )
+    if (textDateSelected.value != "Выбрать дату бронирования") {
+        mapViewModel.getAvailableSlots(
+            parkingId,
+            textDateSelected.value,
+            onResult = { stateAvailablePlaces.value = true })
+    }
+
+//    val times = listOf(
+//        "09:00-10:00",
+//        "10:00-11:00",
+//        "11:00-12:00",
+//        "12:00-13:00",
+//        "13:00-14:00",
+//        "14:00-15:00",
+//        "15:00-16:00",
+//        "16:00-17:00",
+//        "17:00-18:00",
+//        "18:00-19:00",
+//        "20:00-21:00"
+//    )
 
     CalendarDialog(
         state = calendarStateOpen,
@@ -129,7 +160,24 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
             style = CalendarStyle.MONTH
         ),
         selection = CalendarSelection.Date { date ->
-            textOpenDate.value = formatDate(date.toString())
+            textDateSelected.value = formatDate(date.toString())
+        }
+    )
+
+    val options = cars.value.map {
+        ListOption(
+            IconSource(R.drawable.profile_icon),
+            titleText = "${it.model} ${it.number}"
+        )
+    }
+
+    ListDialog(
+        state = listCarStateOpen,
+        selection = ListSelection.Single(
+            showRadioButtons = true,
+            options = options
+        ) { index, option ->
+            textCarSelected.value = option.titleText
         }
     )
 
@@ -163,7 +211,7 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
             )
         }
     ) { values ->
-        if (screenState.value) {
+        if (stateParkingInfo.value) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
@@ -320,6 +368,30 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
                 ) {
                     Button(
                         onClick = {
+                            listCarStateOpen.show()
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(54.dp),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    ) {
+                        Text(
+                            text = textCarSelected.value,
+                            style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight(500))
+                        )
+                    }
+                }
+
+                Box(
+                    modifier = Modifier.padding(start = 22.dp, end = 22.dp, bottom = 24.dp),
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    Button(
+                        onClick = {
                             calendarStateOpen.show()
                         },
                         modifier = Modifier
@@ -332,18 +404,27 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
                         )
                     ) {
                         Text(
-                            text = textOpenDate.value,
+                            text = textDateSelected.value,
                             style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight(500))
                         )
                     }
                 }
 
-                FlowRow(
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 15.dp)
-                ) {
-                    times.forEach {
-                        ActionChips(item = it)
+                if (stateAvailablePlaces.value) {
+                    FlowRow(
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 15.dp)
+                    ) {
+                        availableSlots.value.forEach {
+                            ActionChips(item = it, mapViewModel)
+                        }
                     }
+                }
+
+                if (amount.value > 0) {
+                    Text(
+                        modifier = Modifier.padding(bottom = 15.dp),
+                        text = "Итоговая сумма заказа: ${parking.value!!.costPerHour * amount.value}₽"
+                    )
                 }
 
                 Box(
@@ -352,7 +433,7 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
                 ) {
                     Button(
                         onClick = {
-
+                            showExitDialog.value = !showExitDialog.value
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -380,22 +461,105 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
                 )
             }
         }
+        if (showExitDialog.value) {
+            AlertDialog(
+                onDismissRequest = { showExitDialog.value = false },
+                title = { Text(text = "Подтверждение бронирования", textAlign = TextAlign.Center) },
+                text = { Text(textAlign = TextAlign.Center, text = "Вы подтверждаете бронирование парковки по адресу: ${parking.value!!.address}?\n\nИтоговая сумма заказа: ${parking.value!!.costPerHour * amount.value}₽") },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            mapViewModel.createBookings(
+                                parkingId,
+                                textCarSelected.value,
+                                parking.value!!.name,
+                                textDateSelected.value
+                            )
+                            showExitDialog.value = !showExitDialog.value
+                            showMinimalDialog.value = !showMinimalDialog.value
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Transparent,
+                            contentColor = Black18
+                        )
+                    ) {
+                        Text("Да")
+                    }
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            showExitDialog.value = false
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Transparent,
+                            contentColor = Black18,
+                        )
+                    ) {
+                        Text("Нет")
+                    }
+                },
+                containerColor = Whiteff,
+                iconContentColor = Black18,
+                textContentColor = Black18,
+                titleContentColor = Black18,
+            )
+        }
+        if (showMinimalDialog.value) {
+            MinimalDialog(onDismissRequest = {}, navController = navController)
+        }
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun ActionChips(item: String) {
-//    Chip(
-//        modifier = Modifier
-//            .padding(8.dp),
-//        onClick = {
-//
-//        }
-//    ) {
-//        Text(text = item)
-//    }
+fun MinimalDialog(onDismissRequest: () -> Unit, navController: NavHostController) {
+    val showMinimalDialog = rememberSaveable { mutableStateOf(true) }
+    if (showMinimalDialog.value) {
+        AlertDialog(
+            onDismissRequest = onDismissRequest,
+            icon = {
+                Column {
+                    Image(
+                        painter = painterResource(id = R.drawable.done),
+                        contentDescription = "Confirmation Image",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(120.dp)
+                    )
+                }
+            },
+            text = {
+                Text(textAlign = TextAlign.Center, text = "Парковка успешно забронирована! Проверьте Ваши заказы.")
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        navController.navigate(Screen.MapScreen.route)
+                        showMinimalDialog.value = !showMinimalDialog.value
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent,
+                        contentColor = Black18
+                    )
+                ) {
+                    Text("Понятно")
+                }
+            },
+            containerColor = Whiteff,
+            iconContentColor = Black18,
+            textContentColor = Black18,
+            titleContentColor = Black18,
+        )
+    }
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ActionChips(item: Pair<String, String>, viewModel: MapViewModel) {
     var isSelectedChip by remember { mutableStateOf(false) }
+    val bookingIntervals = viewModel.bookingIntervals.collectAsState()
+    val parking = viewModel.parkingOne.collectAsState()
     FilterChip(
         selected = isSelectedChip,
         modifier = Modifier
@@ -403,9 +567,12 @@ fun ActionChips(item: String) {
             .padding(5.dp),
         onClick = {
             isSelectedChip = !isSelectedChip
+            viewModel.onIntervalSelected(item, isSelectedChip, parking.value!!.costPerHour)
+            if (isSelectedChip) viewModel.incrementAmount() else viewModel.decrementAmount()
+            Log.i("CheckInOutPairs: ", bookingIntervals.value.toString())
         },
         label = {
-            Text(item)
+            Text("${item.first}-${item.second}")
         },
         colors = FilterChipDefaults.filterChipColors(
             selectedContainerColor = Blue,

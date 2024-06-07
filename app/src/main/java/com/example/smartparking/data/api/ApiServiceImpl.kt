@@ -8,6 +8,7 @@ import com.example.smartparking.data.model.LoginResponse
 import com.example.smartparking.data.model.Parking
 import com.example.smartparking.data.model.UserLogin
 import com.example.smartparking.data.model.UserRegister
+import com.example.smartparking.data.model.UserResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.ClientRequestException
@@ -47,6 +48,23 @@ class ApiServiceImpl(
             val response: HttpResponse = client.post {
                 url(ApiRoutes.BASE_URL + ApiRoutes.AUTHENTICATE)
                 setBody(userLogin)
+            }
+            return response.body()
+
+        } catch (ex: RedirectResponseException) {
+            throw Exception("Redirect error: ${ex.response.status.description}")
+        } catch (ex: ClientRequestException) {
+            throw Exception("Client request error: ${ex.response.status.description}")
+        } catch (ex: ServerResponseException) {
+            throw Exception("Server response error: ${ex.response.status.description}")
+        }
+    }
+
+    override suspend fun getUserBuLogin(login: String): UserResponse {
+        try {
+            val response: HttpResponse = client.get {
+                url(ApiRoutes.BASE_URL + ApiRoutes.USER)
+                parameter("login", login)
             }
             return response.body()
 

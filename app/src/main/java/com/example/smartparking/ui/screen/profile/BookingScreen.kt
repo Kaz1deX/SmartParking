@@ -166,6 +166,14 @@ fun BookingScreen(navController: NavHostController, context: Context) {
                                     modifier = Modifier
                                         .padding(start = 15.dp, top = 5.dp)
                                 )
+                                Text(
+                                    text = "Сумма заказа: " + item.amount.toString(),
+                                    color = Color.Gray,
+                                    fontSize = 12.sp,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .padding(start = 15.dp, top = 5.dp)
+                                )
                             }
                         }
                         IconButton(

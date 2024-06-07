@@ -9,6 +9,7 @@ import com.example.smartparking.data.model.CarReceive
 import com.example.smartparking.data.model.Parking
 import com.example.smartparking.data.model.UserLogin
 import com.example.smartparking.data.model.UserRegister
+import com.example.smartparking.data.model.UserResponse
 import com.example.smartparking.data.model.toCar
 import com.example.smartparking.data.model.toCarEntity
 import com.example.smartparking.data.room.dao.CarDao
@@ -42,6 +43,11 @@ class MainRepository(
         } else {
             return "No internet connection"
         }
+    }
+
+    suspend fun getUserByLogin(login: String): UserResponse {
+        val user = apiService.getUserBuLogin(login)
+        return user
     }
 
     suspend fun getCars(login: String): List<Car> {
