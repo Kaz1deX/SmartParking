@@ -39,7 +39,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.smartparking.App
 import com.example.smartparking.R
-import com.example.smartparking.data.room.database.MainDatabase
 import com.example.smartparking.navigation.Screen
 import com.example.smartparking.ui.theme.DividerGrey
 
@@ -73,7 +72,7 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
             Text(
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .padding(top = 35.dp),
+                    .padding(top = 25.dp),
                 text = stringResource(id = R.string.profileScreen),
                 color = Color.Black,
                 fontSize = 18.sp
@@ -86,7 +85,7 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
                 },
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
-                    .padding(top = 35.dp, end = 15.dp)
+                    .padding(top = 20.dp, end = 15.dp)
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.exit_button),
@@ -95,37 +94,8 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
                         .size(30.dp)
                 )
             }
-
-//            Icon(
-//                painter = painterResource(id = R.drawable.ic_launcher_background),
-//                contentDescription = "",
-//                modifier = Modifier
-//                    .clip(RoundedCornerShape(50.dp))
-//                    .size(42.dp)
-//            )
         }
 
-
-//        Box(
-//            modifier = Modifier.fillMaxWidth(),
-//            contentAlignment = Alignment.Center
-//        ) {
-//            Text(
-//                modifier = Modifier.
-//                padding(top = 35.dp),
-//                text = stringResource(id = R.string.profileScreen),
-//                color = Color.Black,
-//                fontSize = 18.sp,
-//                textAlign = TextAlign.Center
-//            )
-//            Icon(
-//                painter = painterResource(id = R.drawable.ic_launcher_background),
-//                contentDescription = "",
-//                modifier = Modifier
-//                    .clip(RoundedCornerShape(50.dp))
-//                    .size(42.dp)
-//            )
-//        }
         Spacer(
             modifier = Modifier
                 .padding(top = 50.dp)
@@ -192,67 +162,9 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
                         )
                     }
                 }
-
-
-//                FavouriteItem(item)
-//                if(index != (profileName.size - 1)) {
-//                    Divider(modifier = Modifier
-//                        .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 15.dp),
-//                        thickness = 1.dp,
-//                        color = DividerGrey
-//                    )
-//                }
             }
         }
-
-
-//        for(i in settingsName.indices) {
-//            if(i != (settingsName.size - 1)) {
-//                SettingsItem(settingsName[i])
-//                Divider(modifier = Modifier
-//                    .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 15.dp),
-//                    thickness = 1.dp,
-//                    color = DividerGrey
-//                )
-//            }
-//            else {
-//                Box(
-//                    contentAlignment = Alignment.CenterStart,
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(start = 15.dp, end = 15.dp)
-//                        .clip(RoundedCornerShape(10.dp))
-//                        .height(50.dp)
-//                        .clickable {
-//
-//                        }
-//                ) {
-//                    Text(
-//                        modifier = Modifier
-//                            .padding(start = 15.dp, end = 15.dp),
-//                        text = settingsName[i],
-//                        color = Color.Gray,
-//                        fontSize = 15.sp,
-//                        textAlign = TextAlign.Center
-//                    )
-//                }
-//            }
-//        }
     }
-
-
-//    Column(
-//        modifier = Modifier.fillMaxSize(),
-//        horizontalAlignment = Alignment.CenterHorizontally
-//    ) {
-//        Text(
-//            text = "ProfileScreen",
-//            fontWeight = FontWeight.Bold,
-//            color = Color.Black,
-//            fontSize = 40.sp,
-//            textAlign = TextAlign.Center
-//        )
-//    }
 }
 
 @Composable

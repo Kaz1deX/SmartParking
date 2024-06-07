@@ -1,6 +1,5 @@
 package com.example.smartparking.data.model
 
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.serialization.Serializable
 
 @Serializable

@@ -5,8 +5,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.smartparking.data.model.Favourite
-import com.example.smartparking.data.room.entity.CarEntity
 import com.example.smartparking.data.room.entity.FavouriteEntity
 
 @Dao

@@ -5,13 +5,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.smartparking.data.model.Booking
 import com.example.smartparking.data.model.BookingReceive
 import com.example.smartparking.data.model.Car
 import com.example.smartparking.data.model.CarReceive
 import com.example.smartparking.data.repositories.MainRepository
-import com.example.smartparking.data.room.database.MainDatabase
 import com.example.smartparking.data.sharedPref.SharedPrefNames
 import com.example.smartparking.data.sharedPref.SharedPreferences
 import kotlinx.coroutines.flow.MutableStateFlow

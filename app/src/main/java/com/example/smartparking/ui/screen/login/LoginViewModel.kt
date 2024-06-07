@@ -1,7 +1,6 @@
 package com.example.smartparking.ui.screen.login
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -9,8 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.smartparking.data.repositories.MainRepository
 import com.example.smartparking.data.sharedPref.SharedPrefNames
 import com.example.smartparking.data.sharedPref.SharedPreferences
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
@@ -18,9 +15,6 @@ class LoginViewModel(
     private val repository: MainRepository
 ) : AndroidViewModel(application) {
     private val sharedPreferences = SharedPreferences(application)
-
-//    private val _header: MutableStateFlow<String> = MutableStateFlow("")
-//    val header = _header.asStateFlow()
 
     fun auth(login: String, password: String, onResult: (header: String) -> Unit) {
         viewModelScope.launch {
@@ -31,7 +25,6 @@ class LoginViewModel(
                 sharedPreferences.saveString(SharedPrefNames.TOKEN, header)
                 sharedPreferences.saveString(SharedPrefNames.LOGIN, login)
             }
-//            _header.value = header
         }
     }
 

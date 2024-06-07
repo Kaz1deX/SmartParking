@@ -8,8 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.smartparking.data.repositories.MainRepository
 import com.example.smartparking.data.sharedPref.SharedPrefNames
 import com.example.smartparking.data.sharedPref.SharedPreferences
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class RegistrationViewModel(
@@ -17,9 +15,6 @@ class RegistrationViewModel(
     private val repository: MainRepository
 ) : AndroidViewModel(application) {
     private val sharedPreferences = SharedPreferences(application)
-
-//    private val _header: MutableStateFlow<String> = MutableStateFlow("")
-//    val header = _header.asStateFlow()
 
     fun register(login: String, password: String, username: String, email: String, onResult: (header: String) -> Unit) {
         viewModelScope.launch {
@@ -29,7 +24,6 @@ class RegistrationViewModel(
             if (header != "User not found" && header != "Invalid password" && header != "") {
                 sharedPreferences.saveString(SharedPrefNames.TOKEN, header)
             }
-//            _header.value = header
         }
     }
 

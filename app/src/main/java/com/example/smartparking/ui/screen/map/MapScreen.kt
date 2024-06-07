@@ -165,7 +165,6 @@ fun MapItem(parking: Parking, navController: NavHostController) {
                 .align(Alignment.CenterEnd)
         ) {
             Icon(
-//                imageVector = Icons.Default.Favorite,
                 imageVector = if (isButtonEnabled.value) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                 contentDescription = "Favourite",
                 tint = buttonColors

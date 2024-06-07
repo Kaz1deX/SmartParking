@@ -127,23 +127,6 @@ fun CarsScreen(navController: NavHostController, context: Context) {
                 .padding(values)
                 .fillMaxSize()
         ) {
-//            val car = listOf(
-//                listOf("Мерседес 1", "ооо12оо"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//                listOf("БМВ 2", "авп65ии"),
-//            )
-
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
@@ -165,38 +148,6 @@ fun CarsScreen(navController: NavHostController, context: Context) {
                 }
             }
         }
-
-
-//        ) {
-//            Column(
-//                modifier = Modifier
-//                    .padding(horizontal = 16.dp)
-//                    .verticalScroll(scrollState)
-//            ) {
-//                TextField(
-//                    hint = "Предмет",
-//                    text = textSubject,
-//                    keyboardOptions = KeyboardOptions(),
-//                    keyboardActions = KeyboardActions(),
-//                    horizontalPadding = 0.dp
-//                )
-//
-//                Spacer(modifier = Modifier.padding(8.dp))
-//
-//                Row(verticalAlignment = Alignment.CenterVertically) {
-//                    Checkbox(
-//                        checked = isCheckBoxOpenDate,
-//                        onCheckedChange = { newValue -> isCheckBoxOpenDate = newValue },
-//                        colors = CheckboxDefaults.colors(
-//                            checkedColor = Green,
-//                            uncheckedColor = Gray
-//                        )
-//                    )
-//                    Text(text = "Открытие по времени", color = Color.White, fontSize = 16.sp)
-//                }
-
-//            }
-//        }
     }
 }
 
