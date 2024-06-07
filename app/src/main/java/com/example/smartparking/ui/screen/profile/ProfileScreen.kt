@@ -2,7 +2,7 @@ package com.example.smartparking.ui.screen.profile
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
@@ -107,14 +108,15 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
             modifier = Modifier
                 .padding(top = 50.dp)
         )
-        Icon(
-            painter = painterResource(id = R.drawable.ic_launcher_background),
+        Image(
+            painter = painterResource(id = R.drawable.ava),
             contentDescription = "",
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .clip(RoundedCornerShape(50.dp))
                 .size(90.dp)
                 .clickable {
-                    viewModel.getCars(onResult = { Log.i("CARS: ", cars.value.toString()) })
+
                 }
         )
         Text(
@@ -169,67 +171,9 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
                             )
                         }
                     }
-
-
-//                FavouriteItem(item)
-//                if(index != (profileName.size - 1)) {
-//                    Divider(modifier = Modifier
-//                        .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 15.dp),
-//                        thickness = 1.dp,
-//                        color = DividerGrey
-//                    )
-//                }
                 }
             }
-
-
-//        for(i in settingsName.indices) {
-//            if(i != (settingsName.size - 1)) {
-//                SettingsItem(settingsName[i])
-//                Divider(modifier = Modifier
-//                    .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 15.dp),
-//                    thickness = 1.dp,
-//                    color = DividerGrey
-//                )
-//            }
-//            else {
-//                Box(
-//                    contentAlignment = Alignment.CenterStart,
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(start = 15.dp, end = 15.dp)
-//                        .clip(RoundedCornerShape(10.dp))
-//                        .height(50.dp)
-//                        .clickable {
-//
-//                        }
-//                ) {
-//                    Text(
-//                        modifier = Modifier
-//                            .padding(start = 15.dp, end = 15.dp),
-//                        text = settingsName[i],
-//                        color = Color.Gray,
-//                        fontSize = 15.sp,
-//                        textAlign = TextAlign.Center
-//                    )
-//                }
-//            }
-//        }
         }
-
-
-//    Column(
-//        modifier = Modifier.fillMaxSize(),
-//        horizontalAlignment = Alignment.CenterHorizontally
-//    ) {
-//        Text(
-//            text = "ProfileScreen",
-//            fontWeight = FontWeight.Bold,
-//            color = Color.Black,
-//            fontSize = 40.sp,
-//            textAlign = TextAlign.Center
-//        )
-//    }
     } else {
         Box(
             modifier = Modifier.fillMaxSize(),
