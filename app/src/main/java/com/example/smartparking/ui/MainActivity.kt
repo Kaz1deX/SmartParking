@@ -3,8 +3,10 @@ package com.example.smartparking.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
@@ -36,7 +38,11 @@ class MainActivity : ComponentActivity() {
                     }
                 ) { contentPadding ->
                     run {
-                        Box(modifier = Modifier.padding(contentPadding)) {
+                        Box(
+                            modifier = Modifier
+                                .padding(contentPadding)
+                                .background(MaterialTheme.colorScheme.surface)
+                        ) {
                             Navigation(navController, applicationContext)
                         }
                     }

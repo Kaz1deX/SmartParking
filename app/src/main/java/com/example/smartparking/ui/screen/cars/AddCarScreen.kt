@@ -113,7 +113,7 @@ fun AddCarScreen(navController: NavHostController, context: Context) {
                 colors = TopAppBarDefaults.topAppBarColors(
                     navigationIconContentColor = Color.Black,
                     actionIconContentColor = Color.Black,
-                    containerColor = Color.Transparent
+                    containerColor = MaterialTheme.colorScheme.surface
                 )
             )
         }

@@ -13,6 +13,7 @@ val Pink40 = Color(0xFF7D5260)
 val DividerGrey = Color(0xFFF4F4F4)
 
 val Blue = Color(0xFF0079FB)
+val LightBlue = Color(0xFFE3EAFF)
 val DarkBlue = Color(0xFF001429)
 
 val Black18 = Color(0xFF111318)

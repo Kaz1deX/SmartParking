@@ -20,6 +20,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.smartparking.navigation.Screen
+import com.example.smartparking.ui.theme.LightBlue
+import com.example.smartparking.ui.theme.Whiteff
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
@@ -34,7 +36,7 @@ fun BottomNavigationBar(navController: NavController) {
             .clip(RoundedCornerShape(topStart = 18.dp, topEnd = 18.dp))
     ) {
         BottomNavigation(
-            backgroundColor = Color.White
+            backgroundColor = LightBlue
         ) {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.destination?.route

@@ -1,6 +1,7 @@
 package com.example.smartparking
 
 import androidx.compose.ui.input.key.Key.Companion.Calculator
+import com.example.smartparking.util.formatDate
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -14,26 +15,8 @@ class ExampleUnitTest {
 
     @Test
     fun connect_to_server_test() {
-        assertEquals(4, 2 + 2)
-    }
-
-    @Test
-    fun connect_local_database_test() {
-        assertEquals(6, 3 + 3)
-    }
-
-    @Test
-    fun main_repository_test() {
-        assertEquals(4, 2 + 2)
-    }
-
-    @Test
-    fun network_utils_test() {
-        assertEquals(4, 2 + 2)
-    }
-
-    @Test
-    fun shared_pref_test() {
-        assertEquals(4, 2 + 2)
+        val dateNotFormat = "2024-08-06"
+        val result = formatDate(dateNotFormat)
+        assertEquals("06.08.2024", result)
     }
 }

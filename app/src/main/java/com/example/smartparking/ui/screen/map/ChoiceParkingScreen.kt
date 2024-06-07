@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -193,7 +194,7 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
                 colors = TopAppBarDefaults.topAppBarColors(
                     navigationIconContentColor = Color.Black,
                     actionIconContentColor = Color.Black,
-                    containerColor = Color.Transparent
+                    containerColor = MaterialTheme.colorScheme.surface
                 )
             )
         }
@@ -204,6 +205,7 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
                 modifier = Modifier
                     .padding(values)
                     .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.surface)
                     .verticalScroll(rememberScrollState())
             ) {
                 AsyncImage(
