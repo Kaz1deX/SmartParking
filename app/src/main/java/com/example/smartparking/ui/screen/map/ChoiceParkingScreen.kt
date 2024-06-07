@@ -2,6 +2,8 @@ package com.example.smartparking.ui.screen.map
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -11,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -44,6 +45,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -58,6 +60,7 @@ import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.example.smartparking.App
+import com.example.smartparking.R
 import com.example.smartparking.navigation.Screen
 import com.example.smartparking.ui.screen.profile.ProfileViewModel
 import com.example.smartparking.ui.theme.Black18
@@ -135,20 +138,6 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
             textDateSelected.value,
             onResult = { stateAvailablePlaces.value = true })
     }
-
-//    val times = listOf(
-//        "09:00-10:00",
-//        "10:00-11:00",
-//        "11:00-12:00",
-//        "12:00-13:00",
-//        "13:00-14:00",
-//        "14:00-15:00",
-//        "15:00-16:00",
-//        "16:00-17:00",
-//        "17:00-18:00",
-//        "18:00-19:00",
-//        "20:00-21:00"
-//    )
 
     CalendarDialog(
         state = calendarStateOpen,

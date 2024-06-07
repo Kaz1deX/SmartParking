@@ -101,14 +101,6 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
                             .size(30.dp)
                     )
                 }
-
-//            Icon(
-//                painter = painterResource(id = R.drawable.ic_launcher_background),
-//                contentDescription = "",
-//                modifier = Modifier
-//                    .clip(RoundedCornerShape(50.dp))
-//                    .size(42.dp)
-//            )
             }
 
         Spacer(
@@ -127,7 +119,7 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
         )
         Text(
             modifier = Modifier.padding(top = 20.dp),
-            text = "Максим Петрунин",
+            text = viewModel.getUserNameFromSharedPref(),
             color = Color.Black,
             fontSize = 18.sp,
             textAlign = TextAlign.Center
