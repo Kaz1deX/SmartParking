@@ -101,8 +101,10 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.6.0")
     implementation("io.coil-kt:coil-svg:2.2.2")
 
-    // Material3 - DatePicker
+    // Material3
     implementation("com.maxkeppeler.sheets-compose-dialogs:calendar:1.0.2")
+    implementation("com.maxkeppeler.sheets-compose-dialogs:list:1.0.2")
+    implementation("com.maxkeppeler.sheets-compose-dialogs:state:1.0.2")
 
     // JUnit для написания тестов
     testImplementation("junit:junit:4.13.2")

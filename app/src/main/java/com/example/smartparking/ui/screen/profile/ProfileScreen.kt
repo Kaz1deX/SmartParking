@@ -24,6 +24,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,6 +42,7 @@ import androidx.navigation.NavHostController
 import com.example.smartparking.App
 import com.example.smartparking.R
 import com.example.smartparking.navigation.Screen
+import com.example.smartparking.ui.theme.Blue
 import com.example.smartparking.ui.theme.DividerGrey
 
 @Composable
@@ -56,45 +59,57 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
         )
     )
     val cars = viewModel.cars.collectAsState()
+    val userNameState = rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(key1 = Unit) {
         viewModel.getCars(onResult = {})
+        viewModel.getUserName(onResult = { userNameState.value = true })
     }
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
+    if (userNameState.value) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
+            Box(
                 modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(top = 25.dp),
-                text = stringResource(id = R.string.profileScreen),
-                color = Color.Black,
-                fontSize = 18.sp
-            )
-            IconButton(
-                onClick = {
-                    viewModel.clearSharedPref()
-                    viewModel.deleteTables()
-                    navController.navigate(Screen.LoginScreen.route)
-                },
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(top = 20.dp, end = 15.dp)
+                    .fillMaxWidth()
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.exit_button),
-                    contentDescription = "",
+                Text(
                     modifier = Modifier
-                        .size(30.dp)
+                        .align(Alignment.Center)
+                        .padding(top = 35.dp),
+                    text = stringResource(id = R.string.profileScreen),
+                    color = Color.Black,
+                    fontSize = 18.sp
                 )
+                IconButton(
+                    onClick = {
+                        userNameState.value = false
+                        viewModel.clearSharedPref()
+                        viewModel.deleteTables()
+                        navController.navigate(Screen.LoginScreen.route)
+                    },
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(top = 35.dp, end = 15.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.exit_button),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(30.dp)
+                    )
+                }
+
+//            Icon(
+//                painter = painterResource(id = R.drawable.ic_launcher_background),
+//                contentDescription = "",
+//                modifier = Modifier
+//                    .clip(RoundedCornerShape(50.dp))
+//                    .size(42.dp)
+//            )
             }
-        }
 
         Spacer(
             modifier = Modifier
@@ -122,47 +137,115 @@ fun ProfileScreen(navController: NavHostController, context: Context) {
                 .padding(top = 40.dp)
         )
 
-        val profileName = stringArrayResource(id = R.array.profile)
+            val profileName = stringArrayResource(id = R.array.profile)
 
-        LazyColumn(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            itemsIndexed(
-                profileName
-            ) { index, item ->
-                if (index != (profileName.size - 1)) {
-                    ProfileItem(item, index, navController)
-                    Divider(
-                        modifier = Modifier
-                            .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 15.dp),
-                        thickness = 1.dp,
-                        color = DividerGrey
-                    )
-                } else {
-                    Box(
-                        contentAlignment = Alignment.CenterStart,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 15.dp, end = 15.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                            .height(50.dp)
-                            .clickable {
-
-                            }
-                    ) {
-                        Text(
+            LazyColumn(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                itemsIndexed(
+                    profileName
+                ) { index, item ->
+                    if (index != (profileName.size - 1)) {
+                        ProfileItem(item, index, navController)
+                        Divider(
                             modifier = Modifier
-                                .padding(start = 15.dp, end = 15.dp),
-                            text = item,
-                            color = Color.Gray,
-                            fontSize = 15.sp,
-                            textAlign = TextAlign.Center
+                                .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 15.dp),
+                            thickness = 1.dp,
+                            color = DividerGrey
                         )
+                    } else {
+                        Box(
+                            contentAlignment = Alignment.CenterStart,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 15.dp, end = 15.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                                .height(50.dp)
+                                .clickable {
+
+                                }
+                        ) {
+                            Text(
+                                modifier = Modifier
+                                    .padding(start = 15.dp, end = 15.dp),
+                                text = item,
+                                color = Color.Gray,
+                                fontSize = 15.sp,
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
+
+
+//                FavouriteItem(item)
+//                if(index != (profileName.size - 1)) {
+//                    Divider(modifier = Modifier
+//                        .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 15.dp),
+//                        thickness = 1.dp,
+//                        color = DividerGrey
+//                    )
+//                }
                 }
             }
+
+
+//        for(i in settingsName.indices) {
+//            if(i != (settingsName.size - 1)) {
+//                SettingsItem(settingsName[i])
+//                Divider(modifier = Modifier
+//                    .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 15.dp),
+//                    thickness = 1.dp,
+//                    color = DividerGrey
+//                )
+//            }
+//            else {
+//                Box(
+//                    contentAlignment = Alignment.CenterStart,
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(start = 15.dp, end = 15.dp)
+//                        .clip(RoundedCornerShape(10.dp))
+//                        .height(50.dp)
+//                        .clickable {
+//
+//                        }
+//                ) {
+//                    Text(
+//                        modifier = Modifier
+//                            .padding(start = 15.dp, end = 15.dp),
+//                        text = settingsName[i],
+//                        color = Color.Gray,
+//                        fontSize = 15.sp,
+//                        textAlign = TextAlign.Center
+//                    )
+//                }
+//            }
+//        }
+        }
+
+
+//    Column(
+//        modifier = Modifier.fillMaxSize(),
+//        horizontalAlignment = Alignment.CenterHorizontally
+//    ) {
+//        Text(
+//            text = "ProfileScreen",
+//            fontWeight = FontWeight.Bold,
+//            color = Color.Black,
+//            fontSize = 40.sp,
+//            textAlign = TextAlign.Center
+//        )
+//    }
+    } else {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            androidx.compose.material3.CircularProgressIndicator(
+                color = Blue
+            )
         }
     }
 }

@@ -28,11 +28,29 @@ class ProfileViewModel(
     private var _booking: MutableStateFlow<List<Booking>> = MutableStateFlow(emptyList())
     val booking = _booking.asStateFlow()
 
-    private var _availableSlots: MutableStateFlow<List<Pair<String, String>>> = MutableStateFlow(emptyList())
-    val availableSlots = _availableSlots.asStateFlow()
+    private var _login: MutableStateFlow<String> = MutableStateFlow("")
+    val login = _login.asStateFlow()
 
     fun checkToken(): Boolean {
         return sharedPreferences.getValueString(SharedPrefNames.TOKEN) != null
+    }
+
+    fun getUserName(onResult: (userName: String) -> Unit) {
+        viewModelScope.launch {
+            val login = sharedPreferences.getValueString(SharedPrefNames.LOGIN)
+            if (login != null) {
+                val user = repository.getUserByLogin(login)
+                _login.value = user.username
+                sharedPreferences.saveString(SharedPrefNames.USER_NAME, user.username)
+                onResult(user.username)
+            } else {
+                return@launch
+            }
+        }
+    }
+
+    fun getUserNameFromSharedPref(): String {
+        return sharedPreferences.getValueString(SharedPrefNames.USER_NAME)!!
     }
 
     fun clearSharedPref() {
@@ -83,32 +101,10 @@ class ProfileViewModel(
         }
     }
 
-    fun addBooking(parkingId: String, carNumber: String, checkIn: String, exit: String, amount: Int, parkingName: String) {
-        viewModelScope.launch {
-            val bookingReceive = BookingReceive(
-                userLogin = sharedPreferences.getValueString(SharedPrefNames.LOGIN)!!,
-                parkingId = parkingId,
-                carNumber = carNumber,
-                checkIn = checkIn,
-                exit = exit,
-                amount = amount,
-                parkingName = parkingName
-            )
-            repository.addBooking(bookingReceive)
-        }
-    }
-
     fun deleteBooking(bookingId: String) {
         viewModelScope.launch {
             repository.deleteBooking(bookingId)
             getAllBooking()
-        }
-    }
-
-    fun getAvailableSlots(parkingId: String, date: String) {
-        viewModelScope.launch {
-            val availableSlots = repository.getAvailableSlots(parkingId, date)
-            _availableSlots.value = availableSlots
         }
     }
 

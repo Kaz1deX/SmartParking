@@ -7,7 +7,7 @@ data class Booking(
     val id: String,
     val userLogin: String,
     val parkingId: String,
-    val carNumber: Int,
+    val carNumber: String,
     val checkIn: String,
     val exit: String?,
     val amount: Int,
