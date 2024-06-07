@@ -97,7 +97,12 @@ dependencies {
     ksp("androidx.lifecycle:lifecycle-common:2.7.0")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
 
+    // Coil
+    implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation("io.coil-kt:coil-svg:2.2.2")
 
+    // Material3 - DatePicker
+    implementation("com.maxkeppeler.sheets-compose-dialogs:calendar:1.0.2")
 
     // JUnit для написания тестов
     testImplementation("junit:junit:4.13.2")

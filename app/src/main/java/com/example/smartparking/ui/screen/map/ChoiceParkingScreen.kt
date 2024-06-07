@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -43,6 +44,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -56,12 +58,22 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.ImageLoader
+import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.example.smartparking.App
 import com.example.smartparking.R
 import com.example.smartparking.navigation.Screen
 import com.example.smartparking.ui.theme.Blue
 import com.example.smartparking.ui.theme.DividerGrey
 import com.example.smartparking.util.Constants
+import com.example.smartparking.util.formatDate
+import com.maxkeppeker.sheets.core.models.base.rememberSheetState
+import com.maxkeppeler.sheets.calendar.CalendarDialog
+import com.maxkeppeler.sheets.calendar.models.CalendarConfig
+import com.maxkeppeler.sheets.calendar.models.CalendarSelection
+import com.maxkeppeler.sheets.calendar.models.CalendarStyle
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -71,7 +83,6 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
             navController.currentBackStackEntry?.arguments?.getString(Constants.KEY_PARKING_ID)
         route?.substringAfterLast("/") ?: ""
     }
-    Log.i("PARKINGID: ", parkingId)
 
 
     val activity = LocalContext.current as Activity
@@ -87,13 +98,14 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
 
     val parking = viewModel.parkingOne.collectAsState()
     val screenState = rememberSaveable { mutableStateOf(false) }
+    val textOpenDate = rememberSaveable { mutableStateOf("Выбрать дату бронирования") }
+    val calendarStateOpen = rememberSheetState()
+    val imageLoader = ImageLoader.Builder(context).components { add(SvgDecoder.Factory()) }.build()
 
     LaunchedEffect(key1 = Unit) {
         viewModel.getParking()
         viewModel.getParkingById(parkingId, onResult = { screenState.value = !screenState.value })
     }
-
-    Log.i("PARKINGONE: ", parking.value.toString())
 
     val times = listOf(
         "09:00-10:00",
@@ -107,6 +119,18 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
         "17:00-18:00",
         "18:00-19:00",
         "20:00-21:00"
+    )
+
+    CalendarDialog(
+        state = calendarStateOpen,
+        config = CalendarConfig(
+            monthSelection = true,
+            yearSelection = true,
+            style = CalendarStyle.MONTH
+        ),
+        selection = CalendarSelection.Date { date ->
+            textOpenDate.value = formatDate(date.toString())
+        }
     )
 
     Scaffold(
@@ -147,12 +171,15 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.my_ground),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(parking.value!!.image)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = "profile_image",
                     modifier = Modifier
-                        .height(150.dp)
+                        .fillMaxWidth(),
+                    imageLoader = imageLoader
                 )
                 Spacer(
                     modifier = Modifier
@@ -162,8 +189,13 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
                     modifier = Modifier.padding(start = 15.dp, end = 15.dp),
                     text = parking.value!!.name,
                     color = Color.Black,
-                    fontSize = 18.sp,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
+                )
+                Spacer(
+                    modifier = Modifier
+                        .padding(top = 15.dp)
                 )
 
                 Column(
@@ -280,6 +312,30 @@ fun ChoiceParkingScreen(navController: NavHostController, context: Context) {
                         thickness = 1.dp,
                         color = DividerGrey
                     )
+                }
+
+                Box(
+                    modifier = Modifier.padding(start = 22.dp, end = 22.dp, bottom = 24.dp),
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    Button(
+                        onClick = {
+                            calendarStateOpen.show()
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(54.dp),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    ) {
+                        Text(
+                            text = textOpenDate.value,
+                            style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight(500))
+                        )
+                    }
                 }
 
                 FlowRow(
